@@ -89,3 +89,15 @@ END
 GO
 
 
+
+
+CREATE PROCEDURE sp_GetOrderById
+    @OrderId INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT OrderId, OrderDate, CustomerName, TotalAmount
+    FROM Orders
+    WHERE OrderId = @OrderId;
+END
+GO

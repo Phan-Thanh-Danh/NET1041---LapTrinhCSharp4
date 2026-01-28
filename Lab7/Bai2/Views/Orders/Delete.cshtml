@@ -1,0 +1,117 @@
+@model Bai2.Models.Order
+
+@{
+    ViewData["Title"] = "Xóa đơn hàng";
+}
+
+<div class="container mt-4">
+    <h2 class="text-danger"><i class="bi bi-exclamation-triangle-fill"></i> @ViewData["Title"]</h2>
+    
+    <div class="alert alert-warning border-warning shadow-sm" role="alert">
+        <h5 class="alert-heading">
+            <i class="bi bi-exclamation-triangle-fill"></i> <strong>Cảnh báo!</strong>
+        </h5>
+        <p class="mb-0">Bạn có chắc chắn muốn xóa đơn hàng này không? Hành động này không thể hoàn tác!</p>
+    </div>
+
+    <div class="card mb-4 shadow border-danger">
+        <div class="card-header bg-danger text-white">
+            <h5 class="mb-0"><i class="bi bi-receipt"></i> Thông tin đơn hàng sẽ bị xóa</h5>
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3">Mã đơn hàng:</dt>
+                <dd class="col-sm-9"><strong class="text-danger">#@Model.OrderId</strong></dd>
+
+                <dt class="col-sm-3">Ngày đặt hàng:</dt>
+                <dd class="col-sm-9">@Model.OrderDate.ToString("dd/MM/yyyy HH:mm")</dd>
+
+                <dt class="col-sm-3">Tên khách hàng:</dt>
+                <dd class="col-sm-9">@Model.CustomerName</dd>
+
+                <dt class="col-sm-3">Tổng tiền:</dt>
+                <dd class="col-sm-9"><strong class="text-danger fs-5">@Model.TotalAmount.ToString("N0") VNĐ</strong></dd>
+            </dl>
+        </div>
+    </div>
+
+    @if (Model.OrderDetails != null && Model.OrderDetails.Any())
+    {
+        <div class="card mb-4 shadow">
+            <div class="card-header bg-secondary text-white">
+                <h5 class="mb-0"><i class="bi bi-box-seam"></i> Các sản phẩm sẽ bị xóa (@Model.OrderDetails.Count sản phẩm)</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Mã SP</th>
+                                <th>Tên sản phẩm</th>
+                                <th class="text-center">Số lượng</th>
+                                <th class="text-end">Đơn giá</th>
+                                <th class="text-end">Thành tiền</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var detail in Model.OrderDetails)
+                            {
+                                <tr>
+                                    <td><strong>@detail.ProductId</strong></td>
+                                    <td>@detail.ProductName</td>
+                                    <td class="text-center"><span class="badge bg-info">@detail.Quantity</span></td>
+                                    <td class="text-end">@detail.UnitPrice.ToString("N0") VNĐ</td>
+                                    <td class="text-end"><strong>@((detail.Quantity * detail.UnitPrice).ToString("N0")) VNĐ</strong></td>
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr class="table-secondary">
+                                <td colspan="4" class="text-end"><strong>Tổng cộng:</strong></td>
+                                <td class="text-end"><strong class="text-danger">@Model.TotalAmount.ToString("N0") VNĐ</strong></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="d-flex gap-2">
+        <form asp-action="Delete" method="post" onsubmit="return confirmDelete();">
+            <input type="hidden" asp-for="OrderId" />
+            <button type="submit" class="btn btn-danger btn-lg">
+                <i class="bi bi-trash-fill"></i> Xác nhận xóa
+            </button>
+        </form>
+        <a asp-action="Index" class="btn btn-secondary btn-lg">
+            <i class="bi bi-arrow-left"></i> Hủy
+        </a>
+        <a asp-action="Details" asp-route-id="@Model.OrderId" class="btn btn-info btn-lg">
+            <i class="bi bi-eye"></i> Xem chi tiết
+        </a>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function confirmDelete() {
+            return confirm('Bạn có chắc chắn muốn xóa đơn hàng #@Model.OrderId không?\n\nHành động này không thể hoàn tác!');
+        }
+    </script>
+}
+
+<style>
+    .card {
+        transition: transform 0.2s;
+    }
+
+    .card:hover {
+        transform: translateY(-2px);
+    }
+
+    .btn-lg {
+        padding: 0.75rem 1.5rem;
+        font-size: 1.1rem;
+    }
+</style>

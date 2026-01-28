@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Bai2.Models;
 
-namespace OrderManagement.ViewModels
+namespace Bai2.ViewModels
 {
     public class CreateOrderViewModel
     {
