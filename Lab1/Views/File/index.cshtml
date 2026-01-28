@@ -1,0 +1,94 @@
+@model List<string>
+
+@{
+    ViewData["Title"] = "Quản lý Tệp";
+}
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Quản lý Tệp (Bài 3)</h1>
+</div>
+
+<!-- Upload Section -->
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <i class="bi bi-cloud-upload"></i> Tải Tệp Lên
+            </div>
+            <div class="card-body">
+                <form asp-action="Upload" method="post" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="file" class="form-label">Chọn tệp từ máy tính</label>
+                        <input type="file" name="file" class="form-control" required />
+                    </div>
+                    <button type="submit" class="btn btn-primary"><i class="bi bi-upload"></i> Tải lên</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Demo Results Section -->
+    <div class="col-md-6">
+        <div class="card shadow-sm h-100">
+            <div class="card-header bg-info text-dark">
+                <i class="bi bi-code-square"></i> Demo Các Loại Result
+            </div>
+            <div class="card-body">
+                <p>Thử nghiệm các loại Action Result trong MVC:</p>
+                <div class="d-grid gap-2">
+                    <a asp-action="DemoContent" target="_blank" class="btn btn-outline-dark text-start">
+                        <i class="bi bi-file-text"></i> <strong>ContentResult</strong> (Trả về Text)
+                    </a>
+                    <a asp-action="DemoJson" target="_blank" class="btn btn-outline-dark text-start">
+                        <i class="bi bi-filetype-json"></i> <strong>JsonResult</strong> (Trả về JSON)
+                    </a>
+                    <a asp-action="DemoFileStream" class="btn btn-outline-dark text-start">
+                        <i class="bi bi-file-earmark-arrow-down"></i> <strong>FileResult</strong> (Tải file từ Stream)
+                    </a>
+                    <a asp-action="DemoRedirect" target="_blank" class="btn btn-outline-dark text-start">
+                        <i class="bi bi-box-arrow-up-right"></i> <strong>RedirectResult</strong> (Trang cá nhân Facebook)
+                    </a>
+                    <a asp-action="DemoRedirectLocal" class="btn btn-outline-dark text-start">
+                        <i class="bi bi-arrow-repeat"></i> <strong>RedirectToAction</strong> (Về Index)
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h3 class="h4 mt-4"><i class="bi bi-folder2-open"></i> Danh sách tệp đã tải lên</h3>
+<div class="table-responsive">
+    <table class="table table-striped table-hover align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th scope="col">Tên Tệp</th>
+                <th scope="col" style="width: 150px;">Hành Động</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Count > 0)
+            {
+                foreach (var fileName in Model)
+                {
+                    <tr>
+                        <td>
+                            <i class="bi bi-file-earmark-text me-2"></i> @fileName
+                        </td>
+                        <td>
+                            <a asp-action="Download" asp-route-fileName="@fileName" class="btn btn-sm btn-success">
+                                <i class="bi bi-download"></i> Tải xuống
+                            </a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="2" class="text-center text-muted py-4">Chưa có tệp nào được tải lên.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

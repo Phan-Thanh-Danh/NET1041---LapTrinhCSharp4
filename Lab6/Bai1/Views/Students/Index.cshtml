@@ -1,0 +1,60 @@
+@model IEnumerable<Bai1.Models.Student>
+
+@{
+    ViewData["Title"] = "Danh sách sinh viên";
+}
+
+<div class="animate-fade-in">
+    <div class="page-header">
+        <div>
+            <h2 class="mb-1">Danh sách sinh viên</h2>
+            <p class="text-secondary mb-0">Quản lý thông tin sinh viên</p>
+        </div>
+        <a asp-action="Create" class="btn btn-primary d-flex align-items-center gap-2">
+            <span>➕</span> Thêm mới
+        </a>
+    </div>
+
+    <div class="card-custom">
+        <div class="table-responsive">
+            <table class="table table-custom">
+                <thead>
+                    <tr>
+                        <th>Tên</th>
+                        <th>Giới tính</th>
+                        <th>Ngày sinh</th>
+                        <th>Batch Time</th>
+                        <th>Email</th>
+                        <th>Điện thoại</th>
+                        <th style="width: 150px;">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+            @foreach (var item in Model)
+            {
+                    <tr>
+                        <td class="fw-bold text-primary">@item.Name</td>
+                        <td>
+                            @if(item.Gender) {
+                                <span class="badge bg-info bg-opacity-10 text-info">Nam</span>
+                            } else {
+                                <span class="badge bg-danger bg-opacity-10 text-danger" style="display:inline !important; margin:0;">Nữ</span>
+                            }
+                        </td>
+                        <td>@item.BirthDate.ToString("dd/MM/yyyy")</td>
+                        <td>@item.BatchTime</td>
+                        <td>@item.Email</td>
+                        <td>@item.Phone</td>
+                        <td>
+                            <div class="d-flex gap-2">
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary">✏️</a>
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">🗑</a>
+                            </div>
+                        </td>
+                    </tr>
+            }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

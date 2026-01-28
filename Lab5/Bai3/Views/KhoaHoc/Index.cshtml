@@ -1,0 +1,49 @@
+@model IEnumerable<Bai3.Models.KhoaHoc>
+
+@{
+    ViewData["Title"] = "Danh sách khóa học";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="page-title"><i class="bi bi-journal-bookmark"></i> @ViewData["Title"]</h1>
+    <a class="btn btn-primary" asp-action="Create">
+        <i class="bi bi-plus-circle"></i> Thêm khóa học
+    </a>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info text-center" role="alert">
+        Chưa có khóa học nào trong danh sách.
+    </div>
+}
+else
+{
+    <div class="card-grid">
+        @foreach (var item in Model)
+        {
+            <div class="item-card">
+                <div class="card-body">
+                    <h5 class="card-title">@item.TenKhoaHoc</h5>
+                    <p class="card-text text-muted">Mã KH: @item.MaKhoaHoc</p>
+                    <hr>
+                    <p class="card-text"><i class="bi bi-person-fill"></i> GV: @(item.GiangVien?.TenGiangVien ?? "Chưa gán")</p>
+                    <p class="card-text"><i class="bi bi-calendar-range-fill"></i> @item.NgayBatDau.ToString("dd/MM/yyyy") - @(item.NgayKetThuc?.ToString("dd/MM/yyyy") ?? "N/A")</p>
+                    <p class="card-text"><i class="bi bi-star-fill"></i> @item.SoTinChi tín chỉ</p>
+                    <p class="card-text"><i class="bi bi-cash-stack"></i> @item.HocPhi.ToString("N0") VNĐ</p>
+                </div>
+                <div class="card-footer">
+                    <a class="btn btn-sm btn-info" asp-action="Details" asp-route-id="@item.MaKhoaHoc" title="Chi tiết">
+                        <i class="bi bi-eye"></i>
+                    </a>
+                    <a class="btn btn-sm btn-warning" asp-action="Edit" asp-route-id="@item.MaKhoaHoc" title="Chỉnh sửa">
+                        <i class="bi bi-pencil"></i>
+                    </a>
+                    <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@item.MaKhoaHoc" title="Xóa">
+                        <i class="bi bi-trash"></i>
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
+}

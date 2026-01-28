@@ -1,0 +1,71 @@
+@model Bai3.Models.KhoaHoc
+
+@{
+    ViewData["Title"] = "Xóa khóa học";
+}
+
+<div class="container-fluid">
+    <h1><i class="bi bi-trash"></i> @ViewData["Title"]</h1>
+    <hr />
+    
+    <div class="alert alert-danger">
+        <h4><i class="bi bi-exclamation-triangle"></i> Cảnh báo</h4>
+        <p>Bạn có chắc chắn muốn xóa khóa học này? Hành động này không thể hoàn tác!</p>
+        <p class="mb-0"><strong>Lưu ý:</strong> Tất cả đăng ký và thanh toán liên quan cũng sẽ bị xóa.</p>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5><i class="bi bi-book"></i> Thông tin khóa học sẽ bị xóa</h5>
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-4">Mã khóa học:</dt>
+                <dd class="col-sm-8">@Model.MaKhoaHoc</dd>
+
+                <dt class="col-sm-4">Tên khóa học:</dt>
+                <dd class="col-sm-8">@Model.TenKhoaHoc</dd>
+
+                <dt class="col-sm-4">Giảng viên:</dt>
+                <dd class="col-sm-8">@Model.GiangVien?.TenGiangVien</dd>
+
+                <dt class="col-sm-4">Ngày bắt đầu:</dt>
+                <dd class="col-sm-8">@Model.NgayBatDau.ToString("dd/MM/yyyy")</dd>
+
+                <dt class="col-sm-4">Số tín chỉ:</dt>
+                <dd class="col-sm-8">@Model.SoTinChi</dd>
+
+                <dt class="col-sm-4">Học phí:</dt>
+                <dd class="col-sm-8">@Model.HocPhi.ToString("N0") VNĐ</dd>
+            </dl>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-warning">
+                    <h6><i class="bi bi-exclamation-circle"></i> Dữ liệu liên quan sẽ bị xóa</h6>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li>Số đăng ký: @(ViewBag.SoDangKy ?? 0)</li>
+                        <li>Số thanh toán: @(ViewBag.SoThanhToan ?? 0)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <form asp-action="Delete" class="mt-4">
+        <input type="hidden" asp-for="MaKhoaHoc" />
+        <div class="form-group">
+            <button type="submit" class="btn btn-danger">
+                <i class="bi bi-trash"></i> Xác nhận xóa
+            </button>
+            <a asp-action="Details" asp-route-id="@Model.MaKhoaHoc" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Quay lại
+            </a>
+        </div>
+    </form>
+</div>

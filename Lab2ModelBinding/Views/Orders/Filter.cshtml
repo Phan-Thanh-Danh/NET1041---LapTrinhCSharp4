@@ -1,0 +1,109 @@
+@model IEnumerable<Lab2ModelBinding.Models.Order>
+@{
+    var filterModel = ViewBag.FilterModel as Lab2ModelBinding.Models.OrderFilterModel;
+    ViewData["Title"] = "Lọc đơn hàng";
+}
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="success-message">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+<div>
+    <header>
+        <h2>Lọc đơn hàng</h2>
+        <a asp-action="Create" class="button">Tạo đơn hàng mới</a>
+    </header>
+
+    <!-- Filter Form -->
+    <form asp-action="Filter" method="get">
+        <div>
+            <label>Từ ngày</label>
+            <input type="date" name="StartDate" value="@filterModel?.StartDate?.ToString("yyyy-MM-dd")">
+        </div>
+        <div>
+            <label>Đến ngày</label>
+            <input type="date" name="EndDate" value="@filterModel?.EndDate?.ToString("yyyy-MM-dd")">
+        </div>
+        <div>
+            <label>Trạng thái</label>
+            <select name="Status">
+                <option value="">Tất cả trạng thái</option>
+                <option value="Pending" selected="@(filterModel?.Status == "Pending")">
+                    Đang chờ xử lý
+                </option>
+                <option value="Completed" selected="@(filterModel?.Status == "Completed")">
+                    Hoàn thành
+                </option>
+                <option value="Cancelled" selected="@(filterModel?.Status == "Cancelled")">
+                    Đã hủy
+                </option>
+            </select>
+        </div>
+        <div>
+            <button type="submit">Lọc đơn hàng</button>
+            <a asp-action="Filter" class="button">Xóa bộ lọc</a>
+        </div>
+    </form>
+
+    <!-- Results -->
+    @if (Model.Any())
+    {
+        <table>
+            <thead>
+                <tr>
+                    <th>Mã đơn hàng</th>
+                    <th>Khách hàng</th>
+                    <th>Ngày đặt</th>
+                    <th>Trạng thái</th>
+                    <th>Số sản phẩm</th>
+                    <th>Chi tiết</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>#@item.OrderId</td>
+                        <td>@item.CustomerName</td>
+                        <td>@item.OrderDate.ToString("dd/MM/yyyy")</td>
+                        <td>@item.Status</td>
+                        <td>@item.OrderDetails.Count</td>
+                        <td>
+                            <a asp-action="Details" asp-route-id="@item.OrderId">Xem</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div>
+            <p>Không tìm thấy đơn hàng nào</p>
+            <a asp-action="Create" class="button">Tạo đơn hàng mới</a>
+        </div>
+    }
+</div>
+
+@section Scripts {
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const startDate = document.querySelector('input[name="StartDate"]');
+        const endDate = document.querySelector('input[name="EndDate"]');
+
+        if (!startDate.value) {
+            const thirtyDaysAgo = new Date();
+            thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+            startDate.value = thirtyDaysAgo.toISOString().split('T')[0];
+        }
+
+        if (!endDate.value) {
+            const today = new Date();
+            endDate.value = today.toISOString().split('T')[0];
+        }
+    });
+</script>
+}

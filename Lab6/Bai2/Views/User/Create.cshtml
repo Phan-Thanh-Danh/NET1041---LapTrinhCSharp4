@@ -1,0 +1,53 @@
+@model Bai2.Models.User
+
+@{
+    ViewData["Title"] = "Thêm người dùng";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow border-0">
+                <div class="card-header bg-white border-0 pt-4 pb-0 text-center">
+                    <div class="mb-3">
+                        <span class="d-inline-flex align-items-center justify-content-center bg-success bg-opacity-10 text-success rounded-circle" style="width: 60px; height: 60px;">
+                            <i class="bi bi-person-plus-fill fs-3"></i>
+                        </span>
+                    </div>
+                    <h3 class="fw-bold text-dark">Thêm Người Dùng</h3>
+                    <p class="text-muted small">Điền thông tin để tạo tài khoản mới</p>
+                </div>
+                <div class="card-body p-4 pt-2">
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger mb-3" role="alert"></div>
+                        
+                        <div class="form-floating mb-3">
+                            <input asp-for="Name" class="form-control" placeholder="Họ và tên" />
+                            <label asp-for="Name">Họ và tên</label>
+                            <span asp-validation-for="Name" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-floating mb-4">
+                            <input asp-for="Email" class="form-control" placeholder="name@example.com" />
+                            <label asp-for="Email">Email</label>
+                            <span asp-validation-for="Email" class="text-danger small"></span>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success btn-lg">
+                                <i class="bi bi-check-lg me-2"></i>Lưu Lại
+                            </button>
+                            <a asp-action="Index" class="btn btn-light btn-lg text-muted">
+                                Hủy Bỏ
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

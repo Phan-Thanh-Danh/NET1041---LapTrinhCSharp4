@@ -1,0 +1,28 @@
+@model Lab1.Models.User
+
+@{
+    ViewData["Title"] = "Chi Tiết Người Dùng";
+}
+
+<h1 class="h2">Chi Tiết Người Dùng</h1>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-action="Index">Người Dùng</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Chi Tiết</li>
+    </ol>
+</nav>
+
+<div class="card shadow-sm" style="max-width: 500px;">
+    <div class="card-body">
+        <h5 class="card-title text-primary"><i class="bi bi-person-circle"></i> @Model.Username</h5>
+        <h6 class="card-subtitle mb-3 text-muted">ID: @Model.UserId</h6>
+        <p class="card-text">
+            <strong>Email:</strong> @Model.Email <br />
+            <strong>Mật khẩu:</strong> <span class="text-muted">********</span> (Đã ẩn)
+        </p>
+        <div class="d-flex justify-content-end">
+            <a asp-action="Edit" asp-route-id="@Model.UserId" class="btn btn-warning me-2">Chỉnh Sửa</a>
+            <a asp-action="Index" class="btn btn-secondary">Quay Lại</a>
+        </div>
+    </div>
+</div>

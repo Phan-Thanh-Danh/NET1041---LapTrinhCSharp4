@@ -1,0 +1,109 @@
+@model Lab4.Models.Product
+
+@{
+    ViewData["Title"] = "Edit Product";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-lg card-hover">
+                <!-- Card Header -->
+                <div class="card-header gradient-warning text-white py-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h3 class="card-title mb-0">
+                                <i class="bi bi-pencil-square me-2"></i>@ViewData["Title"]
+                            </h3>
+                            <p class="mb-0 opacity-75">Update product information</p>
+                        </div>
+                        <a asp-action="Index" class="btn btn-light btn-sm">
+                            <i class="bi bi-arrow-left me-1"></i>Back to List
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Card Body -->
+                <div class="card-body p-4 p-md-5">
+                    <form asp-action="Edit" class="needs-validation" novalidate>
+                        <input type="hidden" asp-for="Id" />
+                        
+                        <div class="alert alert-warning alert-dismissible fade show mb-4">
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            <h5 class="alert-heading">
+                                <i class="bi bi-exclamation-triangle me-2"></i>Editing Product
+                            </h5>
+                            You are editing <strong>@Model.Name</strong> (ID: #@Model.Id)
+                        </div>
+                        
+                        <!-- Product Name Field -->
+                        <div class="mb-4">
+                            <label asp-for="Name" class="form-label fw-bold">
+                                <i class="bi bi-tag me-2 text-primary"></i>Product Name
+                                <span class="text-danger">*</span>
+                            </label>
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-text bg-light">
+                                    <i class="bi bi-box text-primary"></i>
+                                </span>
+                                <input asp-for="Name" class="form-control" required />
+                            </div>
+                            <span asp-validation-for="Name" class="text-danger small"></span>
+                        </div>
+                        
+                        <!-- Price Field -->
+                        <div class="mb-4">
+                            <label asp-for="Price" class="form-label fw-bold">
+                                <i class="bi bi-currency-dollar me-2 text-success"></i>Price
+                                <span class="text-danger">*</span>
+                            </label>
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-text bg-light">
+                                    <i class="bi bi-cash-coin text-success"></i>
+                                </span>
+                                <input asp-for="Price" type="number" step="0.01" 
+                                       class="form-control" required />
+                                <span class="input-group-text">USD</span>
+                            </div>
+                            <span asp-validation-for="Price" class="text-danger small"></span>
+                        </div>
+                        
+                        <!-- Description Field -->
+                        <div class="mb-5">
+                            <label asp-for="Description" class="form-label fw-bold">
+                                <i class="bi bi-file-text me-2 text-info"></i>Description
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light align-items-start">
+                                    <i class="bi bi-chat-left-text text-info"></i>
+                                </span>
+                                <textarea asp-for="Description" class="form-control" rows="5"></textarea>
+                            </div>
+                            <span asp-validation-for="Description" class="text-danger small"></span>
+                        </div>
+                        
+                        <!-- Form Buttons -->
+                        <div class="d-flex justify-content-between pt-4 border-top">
+                            <a asp-action="Details" asp-route-id="@Model.Id" 
+                               class="btn btn-outline-info btn-lg">
+                                <i class="bi bi-eye me-2"></i>View Details
+                            </a>
+                            <div>
+                                <a asp-action="Index" class="btn btn-outline-dark btn-lg me-3">
+                                    <i class="bi bi-x-circle me-2"></i>Cancel
+                                </a>
+                                <button type="submit" class="btn btn-warning btn-lg px-5">
+                                    <i class="bi bi-save me-2"></i>Save Changes
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

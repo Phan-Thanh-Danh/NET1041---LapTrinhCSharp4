@@ -1,0 +1,95 @@
+@model Bai1.Models.Student
+
+@{
+    ViewData["Title"] = "Student Details";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-info text-white">
+                    <h3 class="mb-0"><i class="bi bi-info-circle"></i> Student Details</h3>
+                </div>
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-4">
+                            <i class="bi bi-hash"></i> Student ID:
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Model.StudentId
+                        </dd>
+
+                        <dt class="col-sm-4">
+                            <i class="bi bi-person"></i> First Name:
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Model.FirstName
+                        </dd>
+
+                        <dt class="col-sm-4">
+                            <i class="bi bi-person"></i> Last Name:
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Model.LastName
+                        </dd>
+
+                        <dt class="col-sm-4">
+                            <i class="bi bi-person-badge"></i> Full Name:
+                        </dt>
+                        <dd class="col-sm-8">
+                            <strong>@Model.FullName</strong>
+                        </dd>
+
+                        <dt class="col-sm-4">
+                            <i class="bi bi-calendar"></i> Date of Birth:
+                        </dt>
+                        <dd class="col-sm-8">
+                            @if (Model.DateOfBirth.HasValue)
+                            {
+                                @Model.DateOfBirth.Value.ToString("dd MMMM yyyy")
+                                <span class="text-muted">
+                                    (Age: @((DateTime.Now.Year - Model.DateOfBirth.Value.Year)) years old)
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="text-muted">N/A</span>
+                            }
+                        </dd>
+
+                        <dt class="col-sm-4">
+                            <i class="bi bi-envelope"></i> Email:
+                        </dt>
+                        <dd class="col-sm-8">
+                            @if (!string.IsNullOrEmpty(Model.Email))
+                            {
+                                <a href="mailto:@Model.Email">@Model.Email</a>
+                            }
+                            else
+                            {
+                                <span class="text-muted">N/A</span>
+                            }
+                        </dd>
+                    </dl>
+
+                    <hr />
+
+                    <div class="d-flex justify-content-between">
+                        <a asp-action="Index" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left"></i> Back to List
+                        </a>
+                        <div>
+                            <a asp-action="Edit" asp-route-id="@Model.StudentId" class="btn btn-warning">
+                                <i class="bi bi-pencil"></i> Edit
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@Model.StudentId" class="btn btn-danger">
+                                <i class="bi bi-trash"></i> Delete
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

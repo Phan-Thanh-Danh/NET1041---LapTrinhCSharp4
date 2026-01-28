@@ -1,0 +1,68 @@
+@model Bai3.Models.DangKyKhoaHoc
+
+@{
+    ViewData["Title"] = "Xóa đăng ký";
+}
+
+<div class="container-fluid">
+    <h1><i class="bi bi-trash"></i> @ViewData["Title"]</h1>
+    <hr />
+    
+    <div class="alert alert-danger">
+        <h4><i class="bi bi-exclamation-triangle"></i> Cảnh báo</h4>
+        <p>Bạn có chắc chắn muốn xóa đăng ký này? Hành động này không thể hoàn tác!</p>
+        <p class="mb-0"><strong>Lưu ý:</strong> Tất cả thanh toán liên quan cũng sẽ bị xóa.</p>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5><i class="bi bi-clipboard"></i> Thông tin đăng ký sẽ bị xóa</h5>
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-4">Sinh viên:</dt>
+                <dd class="col-sm-8">@Model.SinhVien?.HoVaTen</dd>
+
+                <dt class="col-sm-4">Khóa học:</dt>
+                <dd class="col-sm-8">@Model.KhoaHoc?.TenKhoaHoc</dd>
+
+                <dt class="col-sm-4">Ngày đăng ký:</dt>
+                <dd class="col-sm-8">@Model.NgayDangKy.ToString("dd/MM/yyyy")</dd>
+
+                <dt class="col-sm-4">Trạng thái:</dt>
+                <dd class="col-sm-8">
+                    <span class="badge bg-info">@Model.TrangThaiDangKy</span>
+                </dd>
+            </dl>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-warning">
+                    <h6><i class="bi bi-exclamation-circle"></i> Dữ liệu liên quan sẽ bị xóa</h6>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li>Số thanh toán: @(ViewBag.SoThanhToan ?? 0)</li>
+                        <li>Tổng số tiền: @((ViewBag.TongTien ?? 0).ToString("N0")) VNĐ</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <form asp-action="Delete" class="mt-4">
+        <input type="hidden" asp-for="MaSinhVien" />
+        <input type="hidden" asp-for="MaKhoaHoc" />
+        <div class="form-group">
+            <button type="submit" class="btn btn-danger">
+                <i class="bi bi-trash"></i> Xác nhận xóa
+            </button>
+            <a asp-action="Details" asp-route-maSinhVien="@Model.MaSinhVien" asp-route-maKhoaHoc="@Model.MaKhoaHoc" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Quay lại
+            </a>
+        </div>
+    </form>
+</div>

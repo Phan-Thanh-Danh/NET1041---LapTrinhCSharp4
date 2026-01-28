@@ -1,0 +1,48 @@
+@model IEnumerable<Bai3.Models.GiangVien>
+
+@{
+    ViewData["Title"] = "Danh sách giảng viên";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="page-title"><i class="bi bi-person-badge"></i> @ViewData["Title"]</h1>
+    <a class="btn btn-primary" asp-action="Create">
+        <i class="bi bi-person-plus"></i> Thêm giảng viên
+    </a>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info text-center" role="alert">
+        Chưa có giảng viên nào trong danh sách.
+    </div>
+}
+else
+{
+    <div class="card-grid">
+        @foreach (var item in Model)
+        {
+            <div class="item-card">
+                <div class="card-body">
+                    <h5 class="card-title">@item.TenGiangVien</h5>
+                    <p class="card-text text-muted">Mã GV: @item.MaGiangVien</p>
+                    <hr>
+                    <p class="card-text"><i class="bi bi-mortarboard-fill"></i> @(item.HocVi ?? "Chưa có") - @(item.ChuyenNganh ?? "Chưa có")</p>
+                    <p class="card-text"><i class="bi bi-envelope-fill"></i> @(item.Email ?? "Chưa có")</p>
+                    <p class="card-text"><i class="bi bi-telephone-fill"></i> @(item.SoDienThoai ?? "Chưa có")</p>
+                </div>
+                <div class="card-footer">
+                    <a class="btn btn-sm btn-info" asp-action="Details" asp-route-id="@item.MaGiangVien" title="Chi tiết">
+                        <i class="bi bi-eye"></i>
+                    </a>
+                    <a class="btn btn-sm btn-warning" asp-action="Edit" asp-route-id="@item.MaGiangVien" title="Chỉnh sửa">
+                        <i class="bi bi-pencil"></i>
+                    </a>
+                    <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@item.MaGiangVien" title="Xóa">
+                        <i class="bi bi-trash"></i>
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
+}

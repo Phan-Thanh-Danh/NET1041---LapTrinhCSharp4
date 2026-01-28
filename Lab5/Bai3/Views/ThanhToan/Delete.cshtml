@@ -1,0 +1,58 @@
+@model Bai3.Models.ThanhToan
+
+@{
+    ViewData["Title"] = "Xóa thanh toán";
+}
+
+<div class="container-fluid">
+    <h1><i class="bi bi-trash"></i> @ViewData["Title"]</h1>
+    <hr />
+    
+    <div class="alert alert-danger">
+        <h4><i class="bi bi-exclamation-triangle"></i> Cảnh báo</h4>
+        <p>Bạn có chắc chắn muốn xóa thanh toán này? Hành động này không thể hoàn tác!</p>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5><i class="bi bi-cash-stack"></i> Thông tin thanh toán sẽ bị xóa</h5>
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-4">Mã thanh toán:</dt>
+                <dd class="col-sm-8">@Model.MaThanhToan</dd>
+
+                <dt class="col-sm-4">Sinh viên:</dt>
+                <dd class="col-sm-8">@Model.SinhVien?.HoVaTen</dd>
+
+                <dt class="col-sm-4">Khóa học:</dt>
+                <dd class="col-sm-8">@Model.KhoaHoc?.TenKhoaHoc</dd>
+
+                <dt class="col-sm-4">Số tiền:</dt>
+                <dd class="col-sm-8">@Model.SoTien.ToString("N0") VNĐ</dd>
+
+                <dt class="col-sm-4">Ngày thanh toán:</dt>
+                <dd class="col-sm-8">@Model.NgayThanhToan.ToString("dd/MM/yyyy")</dd>
+
+                <dt class="col-sm-4">Trạng thái:</dt>
+                <dd class="col-sm-8">
+                    <span class="badge @(Model.TrangThai == "Đã thanh toán" ? "bg-success" : "bg-warning")">
+                        @Model.TrangThai
+                    </span>
+                </dd>
+            </dl>
+        </div>
+    </div>
+
+    <form asp-action="Delete" class="mt-4">
+        <input type="hidden" asp-for="MaThanhToan" />
+        <div class="form-group">
+            <button type="submit" class="btn btn-danger">
+                <i class="bi bi-trash"></i> Xác nhận xóa
+            </button>
+            <a asp-action="Details" asp-route-id="@Model.MaThanhToan" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Quay lại
+            </a>
+        </div>
+    </form>
+</div>

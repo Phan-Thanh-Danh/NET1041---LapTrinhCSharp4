@@ -1,0 +1,66 @@
+@model Bai1.Models.Student
+
+@{
+    ViewData["Title"] = "Delete Student";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow border-danger">
+                <div class="card-header bg-danger text-white">
+                    <h3 class="mb-0"><i class="bi bi-exclamation-triangle"></i> Confirm Deletion</h3>
+                </div>
+                <div class="card-body">
+                    <p class="lead">Are you sure you want to delete the student below?</p>
+                    <hr />
+                    <dl class="row">
+                        <dt class="col-sm-4">
+                            <i class="bi bi-hash"></i> Student ID:
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Model.StudentId
+                        </dd>
+
+                        <dt class="col-sm-4">
+                            <i class="bi bi-person"></i> Full Name:
+                        </dt>
+                        <dd class="col-sm-8">
+                            <strong>@Model.FullName</strong>
+                        </dd>
+
+                        <dt class="col-sm-4">
+                            <i class="bi bi-envelope"></i> Email:
+                        </dt>
+                        <dd class="col-sm-8">
+                            @if (!string.IsNullOrEmpty(Model.Email))
+                            {
+                                <a href="mailto:@Model.Email">@Model.Email</a>
+                            }
+                            else
+                            {
+                                <span class="text-muted">N/A</span>
+                            }
+                        </dd>
+                    </dl>
+
+                    <hr />
+
+                    <form asp-action="Delete" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" asp-for="StudentId" />
+                        
+                        <div class="d-flex justify-content-between">
+                            <a asp-action="Index" class="btn btn-secondary">
+                                <i class="bi bi-arrow-left"></i> Back to List
+                            </a>
+                            <button type="submit" class="btn btn-danger">
+                                <i class="bi bi-trash"></i> Delete
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

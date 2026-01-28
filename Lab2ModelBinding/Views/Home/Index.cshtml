@@ -1,0 +1,30 @@
+﻿@{
+    ViewData["Title"] = "Trang chủ - Lab2ModelBinding";
+}
+
+<div class="home-container">
+    <div class="home-header">
+        <h1>LAB 2 - Model Binding</h1>
+        <p>Ứng dụng quản lý sản phẩm và đơn hàng với ASP.NET Core Model Binding</p>
+    </div>
+
+    <div class="features">
+        <div class="feature-card">
+            <h3><span class="icon icon-product"></span>Tìm kiếm Sản phẩm</h3>
+            <p>Tìm kiếm và quản lý sản phẩm trong hệ thống. Bạn có thể tìm kiếm theo tên, giá và chỉnh sửa thông tin sản phẩm.</p>
+            <a asp-controller="Products" asp-action="Search" class="feature-link">Truy cập</a>
+        </div>
+
+        <div class="feature-card">
+            <h3><span class="icon icon-order"></span>Tạo Đơn hàng</h3>
+            <p>Tạo đơn hàng mới với nhiều sản phẩm khác nhau. Tính toán tự động tổng tiền và quản lý chi tiết đơn hàng.</p>
+            <a asp-controller="Orders" asp-action="Create" class="feature-link">Tạo ngay</a>
+        </div>
+
+        <div class="feature-card">
+            <h3><span class="icon icon-filter"></span>Lọc Đơn hàng</h3>
+            <p>Tìm và lọc đơn hàng theo ngày, trạng thái. Xem chi tiết đơn hàng và quản lý đơn hàng hiệu quả.</p>
+            <a asp-controller="Orders" asp-action="Filter" class="feature-link">Lọc đơn hàng</a>
+        </div>
+    </div>
+</div>

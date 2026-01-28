@@ -1,0 +1,131 @@
+﻿@{
+    ViewData["Title"] = "Trang chủ";
+}
+
+<div class="container-fluid">
+    <h1 class="display-6 mb-4"><i class="bi bi-house"></i> Dashboard</h1>
+    
+    <div class="row">
+        <!-- Thống kê -->
+        <div class="col-md-3 mb-4">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-people"></i> Sinh viên</h5>
+                    <h2 class="card-text">@ViewBag.SinhVienCount</h2>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3 mb-4">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-person-badge"></i> Giảng viên</h5>
+                    <h2 class="card-text">@ViewBag.GiangVienCount</h2>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3 mb-4">
+            <div class="card bg-info text-white">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-book"></i> Khóa học</h5>
+                    <h2 class="card-text">@ViewBag.KhoaHocCount</h2>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3 mb-4">
+            <div class="card bg-warning text-white">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-cash-coin"></i> Thanh toán</h5>
+                    <h2 class="card-text">@ViewBag.ThanhToanCount</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Quick actions -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="bi bi-lightning"></i> Thao tác nhanh</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3 mb-2">
+                            <a class="btn btn-outline-primary w-100" asp-controller="SinhVien" asp-action="Create">
+                                <i class="bi bi-person-plus"></i> Thêm sinh viên
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <a class="btn btn-outline-success w-100" asp-controller="GiangVien" asp-action="Create">
+                                <i class="bi bi-person-plus"></i> Thêm giảng viên
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <a class="btn btn-outline-info w-100" asp-controller="KhoaHoc" asp-action="Create">
+                                <i class="bi bi-plus-circle"></i> Thêm khóa học
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <a class="btn btn-outline-warning w-100" asp-controller="DangKyKhoaHoc" asp-action="Create">
+                                <i class="bi bi-clipboard-plus"></i> Đăng ký khóa học
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Recent activities -->
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="bi bi-clock-history"></i> Đăng ký gần đây</h5>
+                </div>
+                <div class="card-body">
+                    @if (ViewBag.RecentDangKy != null)
+                    {
+                        <ul class="list-group">
+                            @foreach (var item in ViewBag.RecentDangKy)
+                            {
+                                <li class="list-group-item">
+                                    <small class="text-muted">@item.NgayDangKy.ToString("dd/MM/yyyy")</small><br>
+                                    <strong>@item.SinhVien.HoVaTen</strong> đăng ký 
+                                    <strong>@item.KhoaHoc.TenKhoaHoc</strong>
+                                </li>
+                            }
+                        </ul>
+                    }
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="bi bi-cash-stack"></i> Thanh toán gần đây</h5>
+                </div>
+                <div class="card-body">
+                    @if (ViewBag.RecentThanhToan != null)
+                    {
+                        <ul class="list-group">
+                            @foreach (var item in ViewBag.RecentThanhToan)
+                            {
+                                <li class="list-group-item">
+                                    <small class="text-muted">@item.NgayThanhToan.ToString("dd/MM/yyyy")</small><br>
+                                    <strong>@item.SinhVien.HoVaTen</strong> - 
+                                    <span class="badge bg-success">@item.TrangThai</span><br>
+                                    <strong>@item.SoTien.ToString("N0") VNĐ</strong> - @item.KhoaHoc.TenKhoaHoc
+                                </li>
+                            }
+                        </ul>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

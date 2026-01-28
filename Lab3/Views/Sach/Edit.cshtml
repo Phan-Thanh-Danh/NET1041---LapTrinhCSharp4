@@ -1,0 +1,86 @@
+﻿@model bai2.ViewModels.EditSachViewModel
+
+@{
+    ViewData["Title"] = "Sửa thông tin sách";
+}
+
+<h1>Sửa thông tin sách</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="MaSach" />
+
+            <div class="form-group">
+                <label asp-for="TieuDe" class="control-label"></label>
+                <input asp-for="TieuDe" class="form-control" />
+                <span asp-validation-for="TieuDe" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="TacGia" class="control-label"></label>
+                <input asp-for="TacGia" class="form-control" />
+                <span asp-validation-for="TacGia" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="GiaTien" class="control-label"></label>
+                <input asp-for="GiaTien" class="form-control" />
+                <span asp-validation-for="GiaTien" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="MoTaChiTiet" class="control-label"></label>
+                <textarea asp-for="MoTaChiTiet" class="form-control" rows="5"></textarea>
+                <span asp-validation-for="MoTaChiTiet" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="MaTheLoai" class="control-label"></label>
+                <select asp-for="MaTheLoai" asp-items="Model.TheLoaiList" class="form-control">
+                    <option value="">-- Chọn thể loại --</option>
+                </select>
+                <span asp-validation-for="MaTheLoai" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="SoLuongTon" class="control-label"></label>
+                <input asp-for="SoLuongTon" class="form-control" />
+                <span asp-validation-for="SoLuongTon" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="AnhBiaFile" class="control-label"></label>
+                <input asp-for="AnhBiaFile" type="file" class="form-control" />
+                <span asp-validation-for="AnhBiaFile" class="text-danger"></span>
+                @if (Model.CoAnhBia)
+                {
+                    <div class="mt-2">
+                        <p>Ảnh hiện tại:</p>
+                        <img src="@Url.Action("GetImage", "Sach", new { id = Model.MaSach })"
+                             alt="Ảnh bìa"
+                             style="max-width: 200px;" />
+                    </div>
+                }
+                else
+                {
+                    <p class="text-muted">Không có ảnh bìa</p>
+                }
+            </div>
+
+            <div class="form-group mt-3">
+                <input type="submit" value="Lưu thay đổi" class="btn btn-primary" />
+                <a asp-action="Details" asp-route-id="@Model.MaSach" class="btn btn-info">Chi tiết</a>
+                <a asp-action="Index" class="btn btn-secondary">Quay lại danh sách</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

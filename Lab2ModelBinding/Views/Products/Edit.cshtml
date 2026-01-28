@@ -1,0 +1,71 @@
+@model Lab2ModelBinding.Models.Product
+@{
+    ViewData["Title"] = "Chỉnh sửa sản phẩm";
+}
+
+<div class="edit-form-container">
+    <header>
+        <h2>Chỉnh sửa sản phẩm</h2>
+        <a asp-action="Search" class="button secondary mb-3">← Quay lại danh sách</a>
+    </header>
+
+    <div class="product-id-display">
+        <label class="text-muted">Mã sản phẩm:</label>
+        <code>@Model.Id</code>
+    </div>
+
+    <form asp-action="Edit" method="post" id="productForm">
+        <input type="hidden" asp-for="Id" />
+
+        <div class="mb-3">
+            <label asp-for="Name" class="form-label">Tên sản phẩm</label>
+            <input asp-for="Name" class="form-control" placeholder="Nhập tên sản phẩm..." />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Description" class="form-label">Mô tả sản phẩm</label>
+            <textarea asp-for="Description" class="form-control" rows="4" placeholder="Nhập mô tả sản phẩm..."></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <div class="mb-4">
+            <label asp-for="Price" class="form-label">Giá sản phẩm (VNĐ)</label>
+            <div class="input-group">
+                <input asp-for="Price" type="number" step="0.01" class="form-control" placeholder="0.00" />
+                <span class="input-group-text">VNĐ</span>
+            </div>
+            <span asp-validation-for="Price" class="text-danger"></span>
+            <small class="text-muted">Nhập giá sản phẩm (ví dụ: 25000000.00)</small>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">
+                <span class="loading-spinner" id="loadingSpinner" style="display: none;"></span>
+                <span id="submitText">Lưu thay đổi</span>
+            </button>
+            <button type="reset" class="btn btn-secondary">Đặt lại</button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    
+    <script>
+        document.getElementById('productForm').addEventListener('submit', function() {
+            document.getElementById('loadingSpinner').style.display = 'inline-block';
+            document.getElementById('submitText').textContent = 'Đang lưu...';
+        });
+        
+        // Format price input
+        document.querySelector('input[asp-for="Price"]').addEventListener('blur', function(e) {
+            let value = parseFloat(e.target.value);
+            if (!isNaN(value)) {
+                e.target.value = value.toFixed(2);
+            }
+        });
+    </script>
+}

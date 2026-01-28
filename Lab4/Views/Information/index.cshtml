@@ -1,0 +1,30 @@
+@model IEnumerable<Lab4.Models.Information>
+
+@{
+    ViewData["Title"] = "Danh sách Công ty";
+}
+
+<h1>Quản lý Thông tin (Lab 4)</h1>
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Tên</th>
+            <th>Giấy phép</th>
+            <th>Ngày thành lập</th>
+            <th>Doanh thu</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Name</td>
+                <td>@item.License</td>
+                <td>@item.Establshied.ToShortDateString()</td>
+                <td>@item.Revenue.ToString("N0")</td>
+            </tr>
+        }
+    </tbody>
+</table>

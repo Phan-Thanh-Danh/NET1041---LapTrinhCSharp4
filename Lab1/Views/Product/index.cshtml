@@ -1,0 +1,67 @@
+@model List<Lab1.Models.Product>
+
+@{
+    ViewData["Title"] = "Quản Lý Sản Phẩm";
+}
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Quản Lý Sản Phẩm (Bài 2)</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <a asp-action="Create" class="btn btn-sm btn-success">
+            <i class="bi bi-plus-lg"></i> Thêm Sản Phẩm
+        </a>
+    </div>
+</div>
+
+<div class="row mb-3">
+    <div class="col-md-6">
+        <div class="input-group">
+            <input type="text" id="searchInput" class="form-control" placeholder="Tìm kiếm theo tên sản phẩm...">
+            <button class="btn btn-outline-secondary" type="button" onclick="searchProduct()">Tìm Kiếm</button>
+        </div>
+        <small class="text-muted">Tính năng tìm kiếm sử dụng route: /Product/Search/{name}</small>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped table-hover align-middle">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Tên Sản Phẩm</th>
+                <th scope="col">Giá</th>
+                <th scope="col">Tồn Kho</th>
+                <th scope="col">Hành Động</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var p in Model)
+            {
+                <tr>
+                    <td>@p.ProductId</td>
+                    <td>@p.ProductName</td>
+                    <td>@p.Price.ToString("C0", new System.Globalization.CultureInfo("vi-VN"))</td>
+                    <td>@p.Stock</td>
+                    <td>
+                        <a href="/Product/Details/@p.ProductId" class="btn btn-sm btn-info text-white" title="Xem"><i class="bi bi-eye"></i></a>
+                        <a asp-action="Edit" asp-route-id="@p.ProductId" class="btn btn-sm btn-warning text-white" title="Sửa"><i class="bi bi-pencil"></i></a>
+                        <form asp-action="Delete" asp-route-id="@p.ProductId" method="post" class="d-inline" onsubmit="return confirm('Bạn có chắc muốn xóa sản phẩm này?');">
+                            <button type="submit" class="btn btn-sm btn-danger" title="Xóa"><i class="bi bi-trash"></i></button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function searchProduct() {
+        var term = document.getElementById('searchInput').value;
+        if(term) {
+            window.location.href = '/Product/Search/' + encodeURIComponent(term);
+        } else {
+             window.location.href = '/Product';
+        }
+    }
+</script>

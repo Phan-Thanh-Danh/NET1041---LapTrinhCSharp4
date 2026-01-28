@@ -1,0 +1,45 @@
+@model List<Lab1.Models.User>
+
+@{
+    ViewData["Title"] = "Quản Lý Người Dùng";
+}
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Quản Lý Người Dùng (Bài 1)</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <a asp-action="Create" class="btn btn-sm btn-primary">
+            <i class="bi bi-plus-lg"></i> Thêm Người Dùng
+        </a>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped table-sm align-middle">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Tên tài khoản</th>
+                <th scope="col">Email</th>
+                <th scope="col" style="width: 150px;">Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.UserId</td>
+                    <td>@user.Username</td>
+                    <td>@user.Email</td>
+                    <td>
+                        <a asp-action="GetUser" asp-route-id="@user.UserId" class="btn btn-sm btn-info text-white" title="Xem"><i class="bi bi-eye"></i></a>
+                        <a asp-action="Edit" asp-route-id="@user.UserId" class="btn btn-sm btn-warning text-white" title="Sửa"><i class="bi bi-pencil"></i></a>
+                        <!-- Delete must be a form to use POST/DELETE semantically properly -->
+                        <form asp-action="DeleteUser" asp-route-id="@user.UserId" method="post" class="d-inline" onsubmit="return confirm('Bạn có chắc chắn muốn xóa không?');">
+                            <button type="submit" class="btn btn-sm btn-danger" title="Xóa"><i class="bi bi-trash"></i></button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

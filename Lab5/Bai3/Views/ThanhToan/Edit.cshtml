@@ -1,0 +1,80 @@
+@model Bai3.Models.ThanhToan
+
+@{
+    ViewData["Title"] = "Sửa thanh toán";
+}
+
+<h1>Sửa thanh toán</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="MaThanhToan" />
+            
+            <div class="form-group mb-3">
+                <label asp-for="MaSinhVien" class="control-label">Sinh viên</label>
+                <select asp-for="MaSinhVien" class="form-control" asp-items="ViewBag.MaSinhVien"></select>
+                <span asp-validation-for="MaSinhVien" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group mb-3">
+                <label asp-for="MaKhoaHoc" class="control-label">Khóa học</label>
+                <select asp-for="MaKhoaHoc" class="form-control" asp-items="ViewBag.MaKhoaHoc"></select>
+                <span asp-validation-for="MaKhoaHoc" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group mb-3">
+                <label asp-for="SoTien" class="control-label"></label>
+                <input asp-for="SoTien" class="form-control" />
+                <span asp-validation-for="SoTien" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group mb-3">
+                <label asp-for="NgayThanhToan" class="control-label"></label>
+                <input asp-for="NgayThanhToan" class="form-control" type="date" 
+                       max="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                <span asp-validation-for="NgayThanhToan" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group mb-3">
+                <label asp-for="TrangThai" class="control-label"></label>
+                <select asp-for="TrangThai" class="form-control">
+                    <option value="Chưa thanh toán">Chưa thanh toán</option>
+                    <option value="Đã thanh toán">Đã thanh toán</option>
+                    <option value="Hủy">Hủy</option>
+                    <option value="Hoàn tiền">Hoàn tiền</option>
+                </select>
+                <span asp-validation-for="TrangThai" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group mb-3">
+                <label asp-for="PhuongThucThanhToan" class="control-label"></label>
+                <select asp-for="PhuongThucThanhToan" class="form-control">
+                    <option value="">-- Chọn phương thức --</option>
+                    <option value="Tiền mặt">Tiền mặt</option>
+                    <option value="Chuyển khoản">Chuyển khoản</option>
+                    <option value="Thẻ tín dụng">Thẻ tín dụng</option>
+                    <option value="Ví điện tử">Ví điện tử</option>
+                </select>
+                <span asp-validation-for="PhuongThucThanhToan" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group mb-3">
+                <label asp-for="GhiChu" class="control-label"></label>
+                <textarea asp-for="GhiChu" class="form-control" rows="3"></textarea>
+                <span asp-validation-for="GhiChu" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <input type="submit" value="Lưu" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Quay lại danh sách</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

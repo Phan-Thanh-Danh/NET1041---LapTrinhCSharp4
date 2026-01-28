@@ -1,0 +1,53 @@
+@model Lab2ModelBinding.Models.Order
+
+@{
+    ViewData["Title"] = "Chi tiết đơn hàng #" + Model.OrderId;
+    var total = Model.OrderDetails.Sum(d => d.Price * d.Quantity);
+}
+
+<div>
+    <header>
+        <h2>Chi tiết đơn hàng #@Model.OrderId</h2>
+        <a asp-action="Filter" class="button">Quay lại danh sách</a>
+    </header>
+
+    <div>
+        <h3>Thông tin khách hàng</h3>
+        <p><strong>Tên khách hàng:</strong> @Model.CustomerName</p>
+    </div>
+    
+    <div>
+        <h3>Thông tin đơn hàng</h3>
+        <p><strong>Ngày đặt:</strong> @Model.OrderDate.ToString("dd/MM/yyyy HH:mm")</p>
+        <p><strong>Trạng thái:</strong> @Model.Status</p>
+    </div>
+
+    <h3>Các sản phẩm trong đơn hàng</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Sản phẩm</th>
+                <th>Số lượng</th>
+                <th>Đơn giá</th>
+                <th>Thành tiền</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var detail in Model.OrderDetails)
+            {
+                <tr>
+                    <td>@detail.ProductName</td>
+                    <td>@detail.Quantity</td>
+                    <td>@detail.Price.ToString("C")</td>
+                    <td>@((detail.Quantity * detail.Price).ToString("C"))</td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3" style="text-align: right;"><strong>Tổng cộng:</strong></td>
+                <td>@total.ToString("C")</td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

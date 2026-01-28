@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Lab2ModelBinding</title>
+    <link rel="stylesheet" href="~/css/new-layout.css" asp-append-version="true" />
+</head>
+<body>
+    <header class="navbar">
+        <div class="navbar-container">
+            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Lab2ModelBinding</a>
+            <nav>
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" && ViewContext.RouteData.Values["action"]?.ToString() == "Index" ? "active" : "")">Home</a></li>
+                    <li class="nav-item"><a asp-area="" asp-controller="Products" asp-action="Search" class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Products" ? "active" : "")">Sản Phẩm</a></li>
+                    <li class="nav-item"><a asp-area="" asp-controller="Orders" asp-action="Create" class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Create" ? "active" : "")">Tạo Đơn Hàng</a></li>
+                    <li class="nav-item"><a asp-area="" asp-controller="Orders" asp-action="Filter" class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Filter" ? "active" : "")">Lọc Đơn Hàng</a></li>
+                    <li class="nav-item"><a asp-area="" asp-controller="Home" asp-action="Privacy" class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Privacy" ? "active" : "")">Privacy</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,33 @@
+@model Lab1.Models.Product
+
+@{
+    ViewData["Title"] = "Chi Tiết Sản Phẩm";
+}
+
+<h1 class="h2">Chi Tiết Sản Phẩm</h1>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-action="Index">Sản Phẩm</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Chi Tiết</li>
+    </ol>
+</nav>
+
+<div class="card shadow-sm" style="max-width: 500px;">
+    <div class="card-body">
+        <h3 class="card-title text-success">@Model.ProductName</h3>
+        <h6 class="card-subtitle mb-4 text-muted">ID: @Model.ProductId</h6>
+        
+        <div class="mb-3">
+            <h5 class="text-primary">@Model.Price.ToString("C0", new System.Globalization.CultureInfo("vi-VN"))</h5>
+        </div>
+        
+        <p class="card-text">
+            <strong>Tồn kho:</strong> @Model.Stock sản phẩm
+        </p>
+        
+        <div class="d-flex justify-content-end mt-4">
+            <a asp-action="Edit" asp-route-id="@Model.ProductId" class="btn btn-warning me-2">Chỉnh Sửa</a>
+            <a asp-action="Index" class="btn btn-secondary">Quay Lại</a>
+        </div>
+    </div>
+</div>

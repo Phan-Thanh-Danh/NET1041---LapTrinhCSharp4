@@ -1,0 +1,54 @@
+@model IEnumerable<Bai3.Models.ThanhToan>
+
+@{
+    ViewData["Title"] = "Danh sách thanh toán";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="page-title"><i class="bi bi-credit-card-fill"></i> @ViewData["Title"]</h1>
+    <a class="btn btn-primary" asp-action="Create">
+        <i class="bi bi-plus-circle"></i> Thêm thanh toán
+    </a>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info text-center" role="alert">
+        Chưa có thanh toán nào.
+    </div>
+}
+else
+{
+    <div class="card-grid">
+        @foreach (var item in Model)
+        {
+            string statusClass = item.TrangThai == "Đã thanh toán" ? "bg-success" : "bg-warning text-dark";
+            
+            <div class="item-card">
+                <div class="card-body">
+                    <h5 class="card-title">@item.KhoaHoc?.TenKhoaHoc</h5>
+                    <p class="card-text text-muted">SV: @item.SinhVien?.HoVaTen</p>
+                    <hr>
+                    <p class="card-text"><i class="bi bi-cash"></i> Số tiền: @item.SoTien.ToString("N0") VNĐ</p>
+                    <p class="card-text"><i class="bi bi-calendar-check-fill"></i> Ngày TT: @item.NgayThanhToan.ToString("dd/MM/yyyy")</p>
+                    <p class="card-text"><i class="bi bi-credit-card-2-front-fill"></i> @(item.PhuongThucThanhToan ?? "Chưa rõ")</p>
+                    <p class="card-text">
+                        <i class="bi bi-flag-fill"></i> Trạng thái: 
+                        <span class="badge @statusClass">@item.TrangThai</span>
+                    </p>
+                </div>
+                <div class="card-footer">
+                    <a class="btn btn-sm btn-info" asp-action="Details" asp-route-id="@item.MaThanhToan" title="Chi tiết">
+                        <i class="bi bi-eye"></i>
+                    </a>
+                    <a class="btn btn-sm btn-warning" asp-action="Edit" asp-route-id="@item.MaThanhToan" title="Chỉnh sửa">
+                        <i class="bi bi-pencil"></i>
+                    </a>
+                    <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@item.MaThanhToan" title="Xóa">
+                        <i class="bi bi-trash"></i>
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
+}
