@@ -4,70 +4,67 @@
     ViewData["Title"] = "Danh sách đơn hàng";
 }
 
-<div class="container mt-4">
-    <h2>@ViewData["Title"]</h2>
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold"><i class="bi bi-receipt text-primary me-2"></i>@ViewData["Title"]</h2>
+        <a asp-action="Create" class="btn btn-primary">
+            <i class="bi bi-plus-lg"></i> New Order
+        </a>
+    </div>
 
     @if (TempData["SuccessMessage"] != null)
     {
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <i class="bi bi-check-circle-fill"></i> @TempData["SuccessMessage"]
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <div class="alert alert-success border-0 shadow-sm animate-fade-in" role="alert">
+            <i class="bi bi-check-circle-fill me-2"></i> @TempData["SuccessMessage"]
         </div>
     }
-
-    @if (TempData["ErrorMessage"] != null)
-    {
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <i class="bi bi-exclamation-triangle-fill"></i> @TempData["ErrorMessage"]
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-    }
-
-    <p>
-        <a asp-action="Create" class="btn btn-primary">
-            <i class="bi bi-plus-circle"></i> Tạo đơn hàng mới
-        </a>
-    </p>
 
     @if (Model.Any())
     {
-        <div class="table-responsive">
-            <table class="table table-striped table-hover">
-                <thead class="table-dark">
-                    <tr>
-                        <th>Mã đơn hàng</th>
-                        <th>Ngày đặt hàng</th>
-                        <th>Tên khách hàng</th>
-                        <th class="text-end">Tổng tiền</th>
-                        <th class="text-center">Thao tác</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
+        <div class="table-container">
+            <div class="table-responsive">
+                <table class="table align-middle">
+                    <thead>
                         <tr>
-                            <td><strong>#@item.OrderId</strong></td>
-                            <td>@item.OrderDate.ToString("dd/MM/yyyy HH:mm")</td>
-                            <td>@item.CustomerName</td>
-                            <td class="text-end"><strong class="text-danger">@item.TotalAmount.ToString("N0") VNĐ</strong></td>
-                            <td class="text-center">
-                                <a asp-action="Details" asp-route-id="@item.OrderId" class="btn btn-sm btn-info" title="Chi tiết">
-                                    <i class="bi bi-eye"></i> Chi tiết
-                                </a>
-                                <a asp-action="Delete" asp-route-id="@item.OrderId" class="btn btn-sm btn-danger" title="Xóa">
-                                    <i class="bi bi-trash"></i> Xóa
-                                </a>
-                            </td>
+                            <th>ORDER ID</th>
+                            <th>DATE</th>
+                            <th>CUSTOMER</th>
+                            <th class="text-end">AMOUNT</th>
+                            <th class="text-center">ACTIONS</th>
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td><span class="badge bg-light text-primary fs-6 fw-bold">#@item.OrderId</span></td>
+                                <td class="text-muted">@item.OrderDate.ToString("MMM dd, yyyy HH:mm")</td>
+                                <td class="fw-semibold">@item.CustomerName</td>
+                                <td class="text-end fw-bold text-dark">@item.TotalAmount.ToString("N0") <small>VNĐ</small></td>
+                                <td class="text-center">
+                                    <div class="btn-group gap-2">
+                                        <a asp-action="Details" asp-route-id="@item.OrderId" class="btn btn-sm btn-light" title="View Details">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                        <a asp-action="Delete" asp-route-id="@item.OrderId" class="btn btn-sm btn-outline-danger" title="Delete">
+                                            <i class="bi bi-trash3"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
     }
     else
     {
-        <div class="alert alert-info">
-            <i class="bi bi-info-circle"></i> Chưa có đơn hàng nào. Hãy tạo đơn hàng mới!
+        <div class="hero-section text-center p-5">
+            <div class="display-1 text-muted mb-4"><i class="bi bi-cart-x"></i></div>
+            <h4>No orders found</h4>
+            <p class="text-muted">Start by creating your first order today!</p>
+            <a asp-action="Create" class="btn btn-primary mt-3">Create First Order</a>
         </div>
     }
 </div>

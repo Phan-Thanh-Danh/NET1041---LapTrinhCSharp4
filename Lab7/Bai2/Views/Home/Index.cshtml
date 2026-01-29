@@ -2,7 +2,47 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container mt-5">
+    <div class="hero-section animate-fade-in">
+        <h1 class="hero-title">Welcome to <span class="text-primary">Bai2</span></h1>
+        <p class="hero-subtitle">Modern order management system built with speed and elegance in mind.</p>
+        <div class="d-flex justify-content-center gap-3">
+            <a asp-controller="Orders" asp-action="Index" class="btn btn-primary btn-lg">
+                <i class="bi bi-speedometer2"></i> Get Started
+            </a>
+            <a href="https://learn.microsoft.com/aspnet/core" class="btn btn-outline-secondary btn-lg">
+                <i class="bi bi-book"></i> Learn More
+            </a>
+        </div>
+    </div>
+
+    <div class="row mt-5 g-4">
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="display-6 text-primary mb-3"><i class="bi bi-lightning-charge"></i></div>
+                    <h5 class="card-title fw-bold">Fast Performance</h5>
+                    <p class="card-text text-muted">Optimized for speed and responsiveness across all devices.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="display-6 text-secondary mb-3"><i class="bi bi-shield-check"></i></div>
+                    <h5 class="card-title fw-bold">Secure Orders</h5>
+                    <p class="card-text text-muted">Manage your customer information and orders with confidence.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="display-6 text-accent mb-3"><i class="bi bi-palette"></i></div>
+                    <h5 class="card-title fw-bold">Beautiful Design</h5>
+                    <p class="card-text text-muted">A premium interface that makes work feel light and enjoyable.</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
