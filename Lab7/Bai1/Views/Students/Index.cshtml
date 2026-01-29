@@ -1,86 +1,101 @@
 @model IEnumerable<Bai1.Models.Student>
 
 @{
-    ViewData["Title"] = "Students List";
+    ViewData["Title"] = "Students Hub";
 }
 
-<div class="container mt-4">
-    <h2>Students Management</h2>
-    <hr />
+<div class="container pb-5">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-5 gap-3">
+        <div>
+            <h2 class="fw-800 mb-1" style="font-weight: 800; color: var(--text-main);">Students Management</h2>
+            <p class="text-muted mb-0">View, search, and manage your student database</p>
+        </div>
+        <a asp-action="Create" class="btn btn-primary-custom d-inline-flex align-items-center justify-content-center">
+            <i class="bi bi-person-plus-fill me-2"></i> Add New Student
+        </a>
+    </div>
 
     @if (TempData["SuccessMessage"] != null)
     {
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <i class="bi bi-check-circle-fill"></i> @TempData["SuccessMessage"]
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <div class="alert alert-success border-0 shadow-sm rounded-4 mb-4 d-flex align-items-center glass" role="alert">
+            <i class="bi bi-check-circle-fill fs-4 me-3 text-success"></i>
+            <div>@TempData["SuccessMessage"]</div>
+            <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert"></button>
         </div>
     }
 
-    @if (TempData["ErrorMessage"] != null)
-    {
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <i class="bi bi-exclamation-triangle-fill"></i> @TempData["ErrorMessage"]
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-    }
-
-    <div class="row mb-3">
-        <div class="col-md-6">
-            <a asp-action="Create" class="btn btn-primary">
-                <i class="bi bi-plus-circle"></i> Create New Student
-            </a>
-        </div>
-        <div class="col-md-6">
-            <form method="get" asp-action="Index" class="d-flex">
-                <input type="text" name="searchString" class="form-control me-2" 
-                       placeholder="Search by name or email..." 
-                       value="@ViewData["CurrentFilter"]" />
-                <button type="submit" class="btn btn-outline-primary">
-                    <i class="bi bi-search"></i> Search
-                </button>
-                <a asp-action="Index" class="btn btn-outline-secondary ms-2">
-                    <i class="bi bi-arrow-clockwise"></i> Clear
-                </a>
-            </form>
-        </div>
+    <div class="glass-card mb-5 p-4 border-0">
+        <form method="get" asp-action="Index" class="row g-3">
+            <div class="col-md-9">
+                <div class="input-group">
+                    <span class="input-group-text bg-transparent border-end-0 ps-3" style="border-radius: 0.75rem 0 0 0.75rem;">
+                        <i class="bi bi-search text-muted"></i>
+                    </span>
+                    <input type="text" name="searchString" class="form-control form-control-custom border-start-0" 
+                           placeholder="Search students by name or email..." 
+                           value="@ViewData["CurrentFilter"]" 
+                           style="border-radius: 0 0.75rem 0.75rem 0; padding-left: 0;">
+                </div>
+            </div>
+            <div class="col-md-3 d-flex gap-2">
+                <button type="submit" class="btn btn-dark w-100 rounded-3 fw-bold">Search</button>
+                <a asp-action="Index" class="btn btn-outline-secondary w-100 rounded-3 fw-bold">Clear</a>
+            </div>
+        </form>
     </div>
 
     @if (Model.Any())
     {
-        <div class="table-responsive">
-            <table class="table table-striped table-hover">
-                <thead class="table-dark">
+        <div class="table-container glass border-0">
+            <table class="table table-custom table-hover">
+                <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Date of Birth</th>
-                        <th>Email</th>
-                        <th class="text-center">Actions</th>
+                        <th class="ps-4">Student Info</th>
+                        <th>Email Address</th>
+                        <th>Birthday</th>
+                        <th class="text-center pe-4">Actions</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="bg-white">
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td>@item.StudentId</td>
-                            <td>@item.FirstName</td>
-                            <td>@item.LastName</td>
-                            <td>@(item.DateOfBirth?.ToString("dd/MM/yyyy") ?? "N/A")</td>
-                            <td>@(item.Email ?? "N/A")</td>
-                            <td class="text-center">
-                                <a asp-action="Details" asp-route-id="@item.StudentId" 
-                                   class="btn btn-sm btn-info" title="Details">
-                                    <i class="bi bi-eye"></i>
-                                </a>
-                                <a asp-action="Edit" asp-route-id="@item.StudentId" 
-                                   class="btn btn-sm btn-warning" title="Edit">
-                                    <i class="bi bi-pencil"></i>
-                                </a>
-                                <a asp-action="Delete" asp-route-id="@item.StudentId" 
-                                   class="btn btn-sm btn-danger" title="Delete">
-                                    <i class="bi bi-trash"></i>
-                                </a>
+                            <td class="ps-4 py-3">
+                                <div class="d-flex align-items-center">
+                                    <div class="avatar-sm me-3 bg-light rounded-circle d-flex align-items-center justify-content-center text-primary fw-bold" style="width: 45px; height: 45px;">
+                                        @(item.FirstName?.Substring(0, 1))@(item.LastName?.Substring(0, 1))
+                                    </div>
+                                    <div>
+                                        <div class="fw-bold text-dark">@item.FirstName @item.LastName</div>
+                                        <small class="text-muted">ID: #@item.StudentId</small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="py-3">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-envelope text-muted me-2"></i>
+                                    @item.Email
+                                </div>
+                            </td>
+                            <td class="py-3 text-muted">
+                                <i class="bi bi-calendar3 me-2"></i>
+                                @(item.DateOfBirth?.ToString("MMM dd, yyyy") ?? "N/A")
+                            </td>
+                            <td class="text-center pe-4 py-3">
+                                <div class="btn-group gap-2">
+                                    <a asp-action="Details" asp-route-id="@item.StudentId" 
+                                       class="btn btn-sm btn-light border rounded-pill px-3 fw-bold" title="Details">
+                                        <i class="bi bi-eye text-info"></i> View
+                                    </a>
+                                    <a asp-action="Edit" asp-route-id="@item.StudentId" 
+                                       class="btn btn-sm btn-light border rounded-pill px-3 fw-bold" title="Edit">
+                                        <i class="bi bi-pencil text-warning"></i> Edit
+                                    </a>
+                                    <a asp-action="Delete" asp-route-id="@item.StudentId" 
+                                       class="btn btn-sm btn-light border rounded-pill px-3 fw-bold text-danger" title="Delete">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                </div>
                             </td>
                         </tr>
                     }
@@ -90,8 +105,10 @@
     }
     else
     {
-        <div class="alert alert-info">
-            <i class="bi bi-info-circle"></i> No students found.
+        <div class="text-center py-5 glass-card">
+            <i class="bi bi-person-slash display-1 text-muted mb-4 d-block"></i>
+            <h4 class="text-muted">No students found matching your search.</h4>
+            <a asp-action="Index" class="btn btn-link">View all students</a>
         </div>
     }
 </div>

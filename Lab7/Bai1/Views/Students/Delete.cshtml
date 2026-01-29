@@ -4,63 +4,48 @@
     ViewData["Title"] = "Delete Student";
 }
 
-<div class="container mt-4">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card shadow border-danger">
-                <div class="card-header bg-danger text-white">
-                    <h3 class="mb-0"><i class="bi bi-exclamation-triangle"></i> Confirm Deletion</h3>
+<div class="row justify-content-center py-4">
+    <div class="col-md-8 col-lg-6">
+        <div class="glass-card p-4 p-md-5 border-0 shadow-lg text-center overflow-hidden">
+            <!-- Warning Header -->
+            <div class="mb-4">
+                <div class="d-inline-flex align-items-center justify-content-center p-3 mb-3 bg-danger bg-opacity-10 rounded-circle text-danger" style="width: 80px; height: 80px;">
+                    <i class="bi bi-exclamation-triangle-fill fs-1"></i>
                 </div>
-                <div class="card-body">
-                    <p class="lead">Are you sure you want to delete the student below?</p>
-                    <hr />
-                    <dl class="row">
-                        <dt class="col-sm-4">
-                            <i class="bi bi-hash"></i> Student ID:
-                        </dt>
-                        <dd class="col-sm-8">
-                            @Model.StudentId
-                        </dd>
+                <h2 class="fw-800" style="font-weight: 800; color: #dc3545;">Delete Account?</h2>
+                <p class="text-muted">You are about to permanently remove this student record from the system. This action cannot be undone.</p>
+            </div>
 
-                        <dt class="col-sm-4">
-                            <i class="bi bi-person"></i> Full Name:
-                        </dt>
-                        <dd class="col-sm-8">
-                            <strong>@Model.FullName</strong>
-                        </dd>
-
-                        <dt class="col-sm-4">
-                            <i class="bi bi-envelope"></i> Email:
-                        </dt>
-                        <dd class="col-sm-8">
-                            @if (!string.IsNullOrEmpty(Model.Email))
-                            {
-                                <a href="mailto:@Model.Email">@Model.Email</a>
-                            }
-                            else
-                            {
-                                <span class="text-muted">N/A</span>
-                            }
-                        </dd>
-                    </dl>
-
-                    <hr />
-
-                    <form asp-action="Delete" method="post">
-                        @Html.AntiForgeryToken()
-                        <input type="hidden" asp-for="StudentId" />
-                        
-                        <div class="d-flex justify-content-between">
-                            <a asp-action="Index" class="btn btn-secondary">
-                                <i class="bi bi-arrow-left"></i> Back to List
-                            </a>
-                            <button type="submit" class="btn btn-danger">
-                                <i class="bi bi-trash"></i> Delete
-                            </button>
-                        </div>
-                    </form>
+            <!-- Profile Summary -->
+            <div class="p-4 mb-4 border rounded-4 bg-light bg-opacity-50 text-start">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="avatar-sm me-3 bg-white rounded-circle d-flex align-items-center justify-content-center text-primary fw-bold shadow-sm" style="width: 50px; height: 50px;">
+                        @(Model.FirstName?.Substring(0, 1))@(Model.LastName?.Substring(0, 1))
+                    </div>
+                    <div>
+                        <div class="fw-bold text-dark fs-5">@Model.FirstName @Model.LastName</div>
+                        <small class="text-muted">Student ID: #@Model.StudentId</small>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center text-muted small">
+                    <i class="bi bi-envelope me-2"></i>
+                    @Model.Email
                 </div>
             </div>
+
+            <form asp-action="Delete" method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="StudentId" />
+                
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-danger btn-lg py-3 rounded-pill fw-bold">
+                        <i class="bi bi-trash-fill me-2"></i> Confirm Permanent Deletion
+                    </button>
+                    <a asp-action="Index" class="btn btn-link text-muted text-decoration-none small">
+                        <i class="bi bi-arrow-left me-1"></i> Cancel and Go Back
+                    </a>
+                </div>
+            </form>
         </div>
     </div>
 </div>

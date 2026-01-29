@@ -2,7 +2,50 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="hero-section text-center py-5 mb-5 glass-card" style="background: var(--primary-gradient); color: white; border: none; border-radius: 2rem;">
+    <div class="py-5">
+        <h1 class="display-3 fw-bold mb-3">Welcome to StudentHub</h1>
+        <p class="lead mb-4 opacity-75">The modern solution for managing students efficiently and elegantly.</p>
+        <div class="d-flex justify-content-center gap-3">
+            <a asp-controller="Students" asp-action="Index" class="btn btn-light btn-lg px-4 rounded-pill fw-bold" style="color: #764ba2;">
+                <i class="bi bi-people-fill me-2"></i> Manage Students
+            </a>
+            <a asp-controller="Home" asp-action="Privacy" class="btn btn-outline-light btn-lg px-4 rounded-pill fw-bold">
+                Learn More
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-4">
+        <div class="glass-card p-4 h-100">
+            <div class="d-inline-flex align-items-center justify-content-center p-3 mb-3" style="background: rgba(102, 126, 234, 0.1); border-radius: 1rem; color: #667eea;">
+                <i class="bi bi-person-plus-fill fs-3"></i>
+            </div>
+            <h4>Quick Registration</h4>
+            <p class="text-muted">Easily add new students to the system with our intuitive forms and validation.</p>
+            <a asp-controller="Students" asp-action="Create" class="btn btn-link p-0 fw-bold text-decoration-none" style="color: #667eea;">Get Started <i class="bi bi-arrow-right ms-1"></i></a>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="glass-card p-4 h-100">
+            <div class="d-inline-flex align-items-center justify-content-center p-3 mb-3" style="background: rgba(0, 210, 255, 0.1); border-radius: 1rem; color: #00d2ff;">
+                <i class="bi bi-search fs-3"></i>
+            </div>
+            <h4>Smart Search</h4>
+            <p class="text-muted">Find any student profile quickly using our powerful filtering and search tools.</p>
+            <a asp-controller="Students" asp-action="Index" class="btn btn-link p-0 fw-bold text-decoration-none" style="color: #00d2ff;">Try Search <i class="bi bi-arrow-right ms-1"></i></a>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="glass-card p-4 h-100">
+            <div class="d-inline-flex align-items-center justify-content-center p-3 mb-3" style="background: rgba(118, 75, 162, 0.1); border-radius: 1rem; color: #764ba2;">
+                <i class="bi bi-shield-check fs-3"></i>
+            </div>
+            <h4>Data Integrity</h4>
+            <p class="text-muted">Managed with ASP.NET Core and Entity Framework for maximum reliability.</p>
+            <a asp-controller="Home" asp-action="Privacy" class="btn btn-link p-0 fw-bold text-decoration-none" style="color: #764ba2;">View Security <i class="bi bi-arrow-right ms-1"></i></a>
+        </div>
+    </div>
 </div>

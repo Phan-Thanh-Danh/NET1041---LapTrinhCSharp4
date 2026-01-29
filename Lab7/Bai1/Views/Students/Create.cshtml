@@ -4,66 +4,61 @@
     ViewData["Title"] = "Create Student";
 }
 
-<div class="container mt-4">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card shadow">
-                <div class="card-header bg-primary text-white">
-                    <h3 class="mb-0"><i class="bi bi-person-plus"></i> Create New Student</h3>
+<div class="row justify-content-center py-4">
+    <div class="col-md-8 col-lg-6">
+        <div class="glass-card p-4 p-md-5 border-0 shadow-lg">
+            <div class="text-center mb-4">
+                <div class="d-inline-flex align-items-center justify-content-center p-3 mb-3 bg-light rounded-circle text-primary" style="width: 70px; height: 70px;">
+                    <i class="bi bi-person-plus-fill fs-1"></i>
                 </div>
-                <div class="card-body">
-                    <form asp-action="Create" method="post">
-                        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
-                        
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label asp-for="FirstName" class="form-label">
-                                    <i class="bi bi-person"></i> First Name <span class="text-danger">*</span>
-                                </label>
-                                <input asp-for="FirstName" class="form-control" placeholder="Enter first name" />
-                                <span asp-validation-for="FirstName" class="text-danger"></span>
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label asp-for="LastName" class="form-label">
-                                    <i class="bi bi-person"></i> Last Name <span class="text-danger">*</span>
-                                </label>
-                                <input asp-for="LastName" class="form-control" placeholder="Enter last name" />
-                                <span asp-validation-for="LastName" class="text-danger"></span>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label asp-for="DateOfBirth" class="form-label">
-                                    <i class="bi bi-calendar"></i> Date of Birth
-                                </label>
-                                <input asp-for="DateOfBirth" class="form-control" type="date" />
-                                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label asp-for="Email" class="form-label">
-                                    <i class="bi bi-envelope"></i> Email
-                                </label>
-                                <input asp-for="Email" class="form-control" type="email" placeholder="example@email.com" />
-                                <span asp-validation-for="Email" class="text-danger"></span>
-                            </div>
-                        </div>
-
-                        <hr />
-
-                        <div class="d-flex justify-content-between">
-                            <a asp-action="Index" class="btn btn-secondary">
-                                <i class="bi bi-arrow-left"></i> Back to List
-                            </a>
-                            <button type="submit" class="btn btn-primary">
-                                <i class="bi bi-save"></i> Create Student
-                            </button>
-                        </div>
-                    </form>
-                </div>
+                <h2 class="fw-800" style="font-weight: 800;">Register Student</h2>
+                <p class="text-muted">Fill in the details to add a new student</p>
             </div>
+
+            <form asp-action="Create" method="post">
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger border-0 rounded-3 small"></div>
+                
+                <div class="row g-3">
+                    <div class="col-md-6 mb-2">
+                        <label asp-for="FirstName" class="form-label fw-600 small text-uppercase tracking-wider text-muted">First Name</label>
+                        <input asp-for="FirstName" class="form-control form-control-custom" placeholder="e.g. John" />
+                        <span asp-validation-for="FirstName" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6 mb-2">
+                        <label asp-for="LastName" class="form-label fw-600 small text-uppercase tracking-wider text-muted">Last Name</label>
+                        <input asp-for="LastName" class="form-control form-control-custom" placeholder="e.g. Doe" />
+                        <span asp-validation-for="LastName" class="text-danger small"></span>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Email" class="form-label fw-600 small text-uppercase tracking-wider text-muted">Email Address</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light border-end-0"><i class="bi bi-envelope text-muted"></i></span>
+                        <input asp-for="Email" class="form-control form-control-custom border-start-0" placeholder="john.doe@example.com" />
+                    </div>
+                    <span asp-validation-for="Email" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-4">
+                    <label asp-for="DateOfBirth" class="form-label fw-600 small text-uppercase tracking-wider text-muted">Date of Birth</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light border-end-0"><i class="bi bi-calendar-event text-muted"></i></span>
+                        <input asp-for="DateOfBirth" class="form-control form-control-custom border-start-0" type="date" />
+                    </div>
+                    <span asp-validation-for="DateOfBirth" class="text-danger small"></span>
+                </div>
+
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary-custom btn-lg py-3">
+                        <i class="bi bi-check-lg me-2"></i> Register Student
+                    </button>
+                    <a asp-action="Index" class="btn btn-link text-muted text-decoration-none small">
+                        <i class="bi bi-arrow-left me-1"></i> Return to Directory
+                    </a>
+                </div>
+            </form>
         </div>
     </div>
 </div>
