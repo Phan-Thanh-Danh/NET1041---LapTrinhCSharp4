@@ -1,0 +1,48 @@
+@model Bai3.Models.Book
+
+@{
+    ViewData["Title"] = "Chi tiết sách";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card shadow-sm">
+                <div class="card-header bg-info text-white">
+                    <h4 class="mb-0"><i class="bi bi-book"></i> @ViewData["Title"]</h4>
+                </div>
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-4">ID:</dt>
+                        <dd class="col-sm-8">@Model.BookId</dd>
+
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.BookTitle):</dt>
+                        <dd class="col-sm-8">@Model.BookTitle</dd>
+
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.PublicationYear):</dt>
+                        <dd class="col-sm-8">@(Model.PublicationYear?.ToString() ?? "N/A")</dd>
+
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Author):</dt>
+                        <dd class="col-sm-8">
+                            <a asp-controller="Authors" asp-action="Details" asp-route-id="@Model.AuthorId">
+                                @Model.Author?.AuthorName
+                            </a>
+                        </dd>
+                    </dl>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a asp-action="Index" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left"></i> Quay lại
+                        </a>
+                        <a asp-action="Edit" asp-route-id="@Model.BookId" class="btn btn-warning">
+                            <i class="bi bi-pencil"></i> Sửa
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@Model.BookId" class="btn btn-danger">
+                            <i class="bi bi-trash"></i> Xóa
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

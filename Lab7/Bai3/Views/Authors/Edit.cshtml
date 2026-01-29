@@ -1,0 +1,56 @@
+@model Bai3.Models.Author
+
+@{
+    ViewData["Title"] = "Chỉnh sửa tác giả";
+}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-6 offset-lg-3">
+            <div class="card border-0 shadow-lg animate-fade-in">
+                <div class="card-body p-5">
+                    <div class="text-center mb-4">
+                        <div class="avatar-lg mx-auto mb-3 rounded-circle bg-icon-purple d-flex align-items-center justify-content-center" style="width: 64px; height: 64px;">
+                            <i class="bi bi-pencil-square fs-2 text-icon-purple"></i>
+                        </div>
+                        <h3 class="fw-bold text-dark">@ViewData["Title"]</h3>
+                        <p class="text-muted small">Cập nhật lại tên của tác giả đã chọn.</p>
+                    </div>
+
+                    <form asp-action="Edit" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
+                        <input type="hidden" asp-for="AuthorId" />
+
+                        <div class="mb-4">
+                            <label asp-for="AuthorName" class="form-label fw-semibold small text-uppercase">Tên tác giả</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0"><i class="bi bi-person"></i></span>
+                                <input asp-for="AuthorName" class="form-control bg-light border-start-0 ps-0" placeholder="Nhập tên tác giả" />
+                            </div>
+                            <span asp-validation-for="AuthorName" class="text-danger small"></span>
+                        </div>
+
+                        <hr class="my-4 opacity-50">
+
+                        <div class="row g-3">
+                            <div class="col-6">
+                                <a asp-action="Index" class="btn btn-light w-100 border text-muted">
+                                    <i class="bi bi-arrow-left me-1"></i>Hủy
+                                </a>
+                            </div>
+                            <div class="col-6">
+                                <button type="submit" class="btn btn-primary w-100">
+                                    <i class="bi bi-check2-circle me-1"></i>Cập nhật
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,121 @@
+@model IEnumerable<Bai3.Models.Author>
+
+@{
+    ViewData["Title"] = "Danh sách tác giả";
+}
+
+<div class="container mt-5">
+    <div class="row align-items-center mb-5">
+        <div class="col">
+            <h1 class="fw-bold text-dark mb-1">
+                <i class="bi bi-people-fill me-2 text-icon-purple opacity-75"></i>@ViewData["Title"]
+            </h1>
+            <p class="text-muted mb-0">Quản lý các tác giả trong hệ thống thư viện.</p>
+        </div>
+        <div class="col text-end">
+            <a asp-action="Create" class="btn btn-primary shadow-sm">
+                <i class="bi bi-plus-lg me-1"></i>Thêm tác giả mới
+            </a>
+        </div>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show border-0 shadow-sm mb-4 py-3" role="alert" style="background-color: #f0fdf4; color: #15803d;">
+            <div class="d-flex align-items-center">
+                <i class="bi bi-check-circle-fill me-3 fs-4 opacity-75"></i>
+                <div class="fw-medium">@TempData["SuccessMessage"]</div>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show border-0 shadow-sm mb-4 py-3" role="alert" style="background-color: #fef2f2; color: #b91c1c;">
+            <div class="d-flex align-items-center">
+                <i class="bi bi-exclamation-triangle-fill me-3 fs-4 opacity-75"></i>
+                <div class="fw-medium">@TempData["ErrorMessage"]</div>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <div class="card border-0 shadow-sm overflow-hidden animate-fade-in">
+        <div class="card-body p-0">
+            @if (Model.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead>
+                            <tr>
+                                <th class="ps-5">ID</th>
+                                <th>Tên tác giả</th>
+                                <th class="text-center">Số lượng sách</th>
+                                <th class="text-center pe-5">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                bool hasBooks = item.Books != null && item.Books.Any();
+                                <tr>
+                                    <td class="ps-5 text-muted small fw-medium">#@item.AuthorId</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-md me-3 rounded-circle bg-light d-flex align-items-center justify-content-center" style="width: 48px; height: 48px; border: 1px solid var(--border-color);">
+                                                <i class="bi bi-person-fill text-muted fs-5"></i>
+                                            </div>
+                                            <div class="fw-bold fs-5">@item.AuthorName</div>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <span class="badge rounded-pill @(hasBooks ? "bg-zinc-200" : "bg-zinc-100") px-4 py-2" style="background-color: #e4e4e7; color: #3f3f46;">
+                                            @(item.Books?.Count ?? 0) <i class="bi bi-book ms-1 opacity-50"></i>
+                                        </span>
+                                    </td>
+                                    <td class="text-center pe-5">
+                                        <div class="btn-group rounded-3 overflow-hidden border shadow-sm" role="group">
+                                            <a asp-action="Details" asp-route-id="@item.AuthorId" 
+                                               class="btn btn-sm btn-white px-3" title="Xem chi tiết">
+                                                <i class="bi bi-eye"></i>
+                                            </a>
+                                            <a asp-action="Edit" asp-route-id="@item.AuthorId" 
+                                               class="btn btn-sm btn-white px-3" title="Sửa">
+                                                <i class="bi bi-pencil"></i>
+                                            </a>
+                                            
+                                            @if (hasBooks)
+                                            {
+                                                <button class="btn btn-sm btn-white px-3 opacity-25" 
+                                                        title="Không thể xóa vì còn sách" disabled>
+                                                    <i class="bi bi-trash text-danger"></i>
+                                                </button>
+                                            }
+                                            else
+                                            {
+                                                <a asp-action="Delete" asp-route-id="@item.AuthorId" 
+                                                   class="btn btn-sm btn-white px-3" title="Xóa">
+                                                    <i class="bi bi-trash text-danger"></i>
+                                                </a>
+                                            }
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="p-5 text-center">
+                    <img src="https://illustrations.popsy.co/slate/skater-boy.svg" alt="No data" style="width: 250px; opacity: 0.3;">
+                    <h4 class="mt-4 text-muted">Chưa có tác giả nào</h4>
+                    <p class="text-muted">Hãy bắt đầu bằng cách thêm một tác giả mới!</p>
+                    <a asp-action="Create" class="btn btn-outline-secondary btn-lg mt-3">Thêm ngay</a>
+                </div>
+            }
+        </div>
+    </div>
+</div>

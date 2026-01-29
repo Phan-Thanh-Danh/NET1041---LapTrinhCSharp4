@@ -1,0 +1,91 @@
+@model Bai3.Models.Author
+
+@{
+    ViewData["Title"] = "Chi tiết tác giả";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-10 offset-md-1">
+            <div class="card shadow-sm">
+                <div class="card-header bg-info text-white">
+                    <h4 class="mb-0"><i class="bi bi-person"></i> @ViewData["Title"]</h4>
+                </div>
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-3">ID:</dt>
+                        <dd class="col-sm-9">@Model.AuthorId</dd>
+
+                        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.AuthorName):</dt>
+                        <dd class="col-sm-9">@Model.AuthorName</dd>
+
+                        <dt class="col-sm-3">Số lượng sách:</dt>
+                        <dd class="col-sm-9">
+                            <span class="badge bg-primary">@Model.Books.Count</span>
+                        </dd>
+                    </dl>
+
+                    <hr />
+
+                    <h5 class="mb-3">
+                        <i class="bi bi-book"></i> Danh sách sách của tác giả
+                    </h5>
+
+                    @if (Model.Books.Any())
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-sm table-hover">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Tiêu đề sách</th>
+                                        <th>Năm xuất bản</th>
+                                        <th class="text-center">Thao tác</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var book in Model.Books.OrderBy(b => b.BookTitle))
+                                    {
+                                        <tr>
+                                            <td>@book.BookId</td>
+                                            <td>@book.BookTitle</td>
+                                            <td>@(book.PublicationYear?.ToString() ?? "N/A")</td>
+                                            <td class="text-center">
+                                                <a asp-controller="Books" asp-action="Details" 
+                                                   asp-route-id="@book.BookId" 
+                                                   class="btn btn-sm btn-info" title="Xem chi tiết">
+                                                    <i class="bi bi-eye"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-info">
+                            <i class="bi bi-info-circle"></i> Tác giả này chưa có sách nào.
+                        </div>
+                    }
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+                        <a asp-action="Index" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left"></i> Quay lại
+                        </a>
+                        <a asp-action="Edit" asp-route-id="@Model.AuthorId" class="btn btn-warning">
+                            <i class="bi bi-pencil"></i> Sửa
+                        </a>
+                        @if (!Model.Books.Any())
+                        {
+                            <a asp-action="Delete" asp-route-id="@Model.AuthorId" class="btn btn-danger">
+                                <i class="bi bi-trash"></i> Xóa
+                            </a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
