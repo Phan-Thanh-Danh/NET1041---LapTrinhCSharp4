@@ -83,3 +83,29 @@
         </div>
     }
 </div>
+
+@if (ViewBag.TotalPages > 1)
+{
+    <nav class="mt-5 d-flex justify-content-center animate-fade-in">
+        <ul class="pagination pagination-md shadow-sm rounded-pill overflow-hidden">
+            <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
+                <a class="page-link border-0 px-3 bg-white" asp-action="Index" asp-route-page="@(ViewBag.CurrentPage - 1)" asp-route-authorId="@ViewBag.CurrentAuthorId">
+                    <i class="bi bi-chevron-left"></i>
+                </a>
+            </li>
+
+            @for (int i = 1; i <= ViewBag.TotalPages; i++)
+            {
+                <li class="page-item @(ViewBag.CurrentPage == i ? "active" : "")">
+                    <a class="page-link border-0 px-3 @(ViewBag.CurrentPage == i ? "bg-primary text-white" : "bg-white")" asp-action="Index" asp-route-page="@i" asp-route-authorId="@ViewBag.CurrentAuthorId">@i</a>
+                </li>
+            }
+
+            <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
+                <a class="page-link border-0 px-3 bg-white" asp-action="Index" asp-route-page="@(ViewBag.CurrentPage + 1)" asp-route-authorId="@ViewBag.CurrentAuthorId">
+                    <i class="bi bi-chevron-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+}

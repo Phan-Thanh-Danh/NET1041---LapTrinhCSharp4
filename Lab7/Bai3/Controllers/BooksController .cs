@@ -16,8 +16,10 @@ namespace Bai3.Controllers
         }
 
         // GET: Books
-        public async Task<IActionResult> Index(int? authorId)
+        public async Task<IActionResult> Index(int? authorId, int page = 1)
         {
+            int pageSize = 6;
+
             // Sử dụng LINQ to Entities để lấy danh sách sách
             var booksQuery = _context.Books
                 .Include(b => b.Author)
@@ -30,9 +32,20 @@ namespace Bai3.Controllers
                 ViewBag.CurrentAuthorId = authorId;
             }
 
+            // ĐẾM TỔNG SỐ SÁCH (Sử dụng LINQ .CountAsync())
+            int totalItems = await booksQuery.CountAsync();
+            int totalPages = (int)Math.Ceiling((double)totalItems / pageSize);
+
+            // PHÂN TRANG (Sử dụng LINQ .Skip() và .Take())
             var books = await booksQuery
                 .OrderBy(b => b.BookTitle)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
                 .ToListAsync();
+
+            // Truyền thông tin phân trang sang View
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = totalPages;
 
             // Lấy danh sách tác giả cho dropdown lọc
             ViewBag.Authors = new SelectList(
