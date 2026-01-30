@@ -16,13 +16,31 @@ namespace Bai3.Controllers
         }
 
         // GET: Books
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? authorId)
         {
-            // Sử dụng LINQ to Entities để lấy danh sách sách kèm thông tin tác giả
-            var books = await _context.Books
+            // Sử dụng LINQ to Entities để lấy danh sách sách
+            var booksQuery = _context.Books
                 .Include(b => b.Author)
+                .AsQueryable();
+
+            // SỬ DỤNG .Where() ĐỂ LỌC THEO TÁC GIẢ
+            if (authorId.HasValue)
+            {
+                booksQuery = booksQuery.Where(b => b.AuthorId == authorId);
+                ViewBag.CurrentAuthorId = authorId;
+            }
+
+            var books = await booksQuery
                 .OrderBy(b => b.BookTitle)
                 .ToListAsync();
+
+            // Lấy danh sách tác giả cho dropdown lọc
+            ViewBag.Authors = new SelectList(
+                await _context.Authors.OrderBy(a => a.AuthorName).ToListAsync(),
+                "AuthorId",
+                "AuthorName",
+                authorId
+            );
 
             return View(books);
         }
