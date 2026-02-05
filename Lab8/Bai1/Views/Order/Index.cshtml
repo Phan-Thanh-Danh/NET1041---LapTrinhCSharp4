@@ -1,0 +1,130 @@
+@model Bai1.Models.OrderComparisonViewModel
+
+@{
+      ViewData["Title"] = "Quản lý Đặt hàng - Lab 8 Bài 1";
+}
+
+<div class="container mt-4">
+      <h1 class="text-center mb-4 text-primary fw-bold">Hệ Thống Quản Lý Đặt Hàng</h1>
+
+      <div class="row g-4">
+            <!-- EF Core Eager Loading Result -->
+            <div class="col-xl-6">
+                  <div class="card h-100 border-0 shadow-lg">
+                        <div class="card-header bg-primary text-white py-3">
+                              <h4 class="card-title mb-0"><i class="bi bi-box-arrow-in-down"></i> EF Core Eager Loading
+                                    (.Include)</h4>
+                        </div>
+                        <div class="card-body p-0">
+                              <div class="table-responsive">
+                                    <table class="table table-hover align-middle mb-0">
+                                          <thead class="table-light">
+                                                <tr>
+                                                      <th class="ps-3">Mã Đơn</th>
+                                                      <th>Khách hàng</th>
+                                                      <th>Ngày đặt</th>
+                                                      <th>Món ăn</th>
+                                                </tr>
+                                          </thead>
+                                          <tbody>
+                                                @foreach (var order in Model.EagerLoadingResult)
+                                                {
+                                                      var first = true;
+                                                      var dishCount = order.Dishes.Count > 0 ? order.Dishes.Count : 1;
+
+                                                      @if (order.Dishes.Any())
+                                                      {
+                                                            @foreach (var dish in order.Dishes)
+                                                            {
+                                                                  <tr>
+                                                                        @if (first)
+                                                                        {
+                                                                              <td rowspan="@dishCount" class="ps-3 fw-bold text-primary">
+                                                                                    #@order.OrderId</td>
+                                                                              <td rowspan="@dishCount">@order.Customer.Name</td>
+                                                                              <td rowspan="@dishCount">@order.OrderDate.ToString("dd/MM/yyyy")
+                                                                              </td>
+                                                                              first = false;
+                                                                        }
+                                                                        <td><span class="badge bg-info text-dark">@dish.Name</span></td>
+                                                                  </tr>
+                                                            }
+                                                      }
+                                                      else
+                                                      {
+                                                            <tr>
+                                                                  <td class="ps-3 fw-bold text-primary">#@order.OrderId</td>
+                                                                  <td>@order.Customer.Name</td>
+                                                                  <td>@order.OrderDate.ToString("dd/MM/yyyy")</td>
+                                                                  <td class="text-muted italic">Không có món</td>
+                                                            </tr>
+                                                      }
+                                                }
+                                          </tbody>
+                                    </table>
+                              </div>
+                        </div>
+                        <div class="card-footer bg-light text-muted small">
+                              Dữ liệu được lấy theo cấu trúc phân cấp (Object Hierarchy).
+                        </div>
+                  </div>
+            </div>
+
+            <!-- Raw SQL Result -->
+            <div class="col-xl-6">
+                  <div class="card h-100 border-0 shadow-lg">
+                        <div class="card-header bg-success text-white py-3">
+                              <h4 class="card-title mb-0"><i class="bi bi-code-slash"></i> Kết Quả SQL Thuần (Raw SQL)
+                              </h4>
+                        </div>
+                        <div class="card-body p-0">
+                              <div class="table-responsive">
+                                    <table class="table table-hover align-middle mb-0">
+                                          <thead class="table-light">
+                                                <tr>
+                                                      <th class="ps-3">Mã Đơn</th>
+                                                      <th>Khách hàng</th>
+                                                      <th>Ngày đặt</th>
+                                                      <th>Món ăn</th>
+                                                </tr>
+                                          </thead>
+                                          <tbody>
+                                                @foreach (var item in Model.RawSqlResult)
+                                                {
+                                                      <tr>
+                                                            <td class="ps-3 fw-bold text-success">#@item.OrderId</td>
+                                                            <td>@item.CustomerName</td>
+                                                            <td>@item.OrderDate.ToString("dd/MM/yyyy")</td>
+                                                            <td><span class="badge bg-secondary">@item.DishName</span></td>
+                                                      </tr>
+                                                }
+                                          </tbody>
+                                    </table>
+                              </div>
+                        </div>
+                        <div class="card-footer bg-light text-muted small">
+                              Dữ liệu được lấy dưới dạng bảng phẳng (Flat Result Set).
+                        </div>
+                  </div>
+            </div>
+      </div>
+
+      <!-- Explanation -->
+      <div class="alert alert-secondary mt-5 border-0 shadow-sm p-4">
+            <h5 class="fw-bold"><i class="bi bi-info-circle-fill me-2"></i>Tại sao có sự khác biệt về cấu trúc?</h5>
+            <hr>
+            <div class="row">
+                  <div class="col-md-6">
+                        <h6><strong>EF Core Eager Loading:</strong></h6>
+                        <p class="small mb-0">Trả về đối tượng <code>Order</code> chứa tập hợp <code>Dishes</code>.
+                              Chúng ta sử dụng <code>rowspan</code> trong HTML để gộp các dòng có cùng thông tin đơn
+                              hàng, tạo giao diện phân cấp sạch sẽ.</p>
+                  </div>
+                  <div class="col-md-6">
+                        <h6><strong>SQL Thuần:</strong></h6>
+                        <p class="small mb-0">Câu lệnh <code>JOIN</code> cổ điển trả về dữ liệu "phẳng". Mỗi món ăn là
+                              một dòng riêng biệt lặp lại thông tin khách hàng và đơn hàng.</p>
+                  </div>
+            </div>
+      </div>
+</div>
