@@ -1,0 +1,121 @@
+@model Bai4.Controllers.StudentIndexViewModel
+
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Quản lý Học sinh & Môn học</h1>
+
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h2 class="h5 mb-0">1. Eager Loading (Sử dụng Include)</h2>
+        </div>
+        <div class="card-body">
+            <p class="text-muted italic small">Dữ liệu được tải ngay lập tức trong một lần truy vấn SQL duy nhất.</p>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Tên học sinh</th>
+                        <th>Môn học đăng ký</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var student in Model.EagerStudents)
+                    {
+                        <tr>
+                            <td><strong>@student.Name</strong></td>
+                            <td>
+                                @if (student.Enrollments.Any())
+                                {
+                                    <ul class="mb-0">
+                                        @foreach (var enrollment in student.Enrollments)
+                                        {
+                                            <li>@enrollment.Course.Title</li>
+                                        }
+                                    </ul>
+                                }
+                                else
+                                {
+                                    <span class="text-secondary italic">Chưa đăng ký môn nào</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header bg-success text-white">
+            <h2 class="h5 mb-0">2. Lazy Loading (Tải khi cần thiết)</h2>
+        </div>
+        <div class="card-body">
+            <p class="text-muted italic small">Dữ liệu môn học chỉ được tải từ DB khi vòng lặp foreach truy cập vào thuộc tính <code>Enrollments</code>.</p>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Tên học sinh</th>
+                        <th>Chi tiết môn học</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var student in Model.LazyStudents)
+                    {
+                        <tr>
+                            <td>@student.Name</td>
+                            <td>
+                                @{
+                                    // Lazy Loading kích hoạt tại đây
+                                    var enrollments = student.Enrollments;
+                                }
+                                @if (enrollments.Any())
+                                {
+                                    @string.Join(", ", enrollments.Select(e => e.Course.Title))
+                                }
+                                else
+                                {
+                                    <span class="text-muted">Không có dữ liệu</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header bg-info text-white">
+            <h2 class="h5 mb-0">3. SQL Thuần (Thống kê số lượng học sinh)</h2>
+        </div>
+        <div class="card-body">
+            <p class="text-muted italic small">Sử dụng <code>FromSqlRaw</code> để thực hiện truy vấn SQL phức tạp với JOIN và GROUP BY.</p>
+            <table class="table table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID Môn học</th>
+                        <th>Tên môn học</th>
+                        <th>Số lượng học sinh</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var stat in Model.CourseStats)
+                    {
+                        <tr>
+                            <td>@stat.CourseId</td>
+                            <td>@stat.Title</td>
+                            <td><span class="badge bg-pill bg-info text-dark">@stat.StudentCount</span></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="alert alert-warning">
+        <strong>So sánh:</strong> 
+        <ul>
+            <li><strong>Eager Loading:</strong> Tốt khi bạn biết chắc chắn mình cần tất cả dữ liệu liên quan. Giảm số lượng truy vấn xuống DB (Tránh lỗi N+1).</li>
+            <li><strong>Lazy Loading:</strong> Linh hoạt nhưng dễ gây ra lỗi N+1 truy vấn nếu dùng trong vòng lặp lớn. Phù hợp cho lấy chi tiết của 1 đối tượng cụ thể.</li>
+            <li><strong>SQL Thuần:</strong> Tối ưu nhất cho các báo cáo thống kê phức tạp mà EF LINQ khó diễn đạt hoặc chạy không hiệu quả.</li>
+        </ul>
+    </div>
+</div>
